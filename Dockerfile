@@ -1,16 +1,25 @@
+FROM python:3.11-slim-trixie AS base
+
+RUN apt-get update \
+    && apt-get upgrade -y --no-install-recommends \
+    && rm -rf /var/lib/apt/lists/* \
+    && python -m pip uninstall -y pip setuptools wheel
+
 # ---- Stage 1: Build ----
-FROM python:3.11-slim AS builder
+FROM base AS builder
 
 WORKDIR /app
 
 RUN python -m venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
 
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+COPY requirements-runtime.txt .
+RUN python -m pip install --no-cache-dir --upgrade pip==26.2.1 setuptools==84.0.0 wheel==0.48.0 \
+    && python -m pip install --no-cache-dir -r requirements-runtime.txt \
+    && python -m pip uninstall -y pip wheel
 
 # ---- Stage 2: Production ----
-FROM python:3.11-slim
+FROM base
 
 WORKDIR /app
 

@@ -4,8 +4,9 @@ import zipfile
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Literal
-from xml.etree import ElementTree
 
+from defusedxml import ElementTree
+from defusedxml.common import DefusedXmlException
 from pypdf import PdfReader
 
 MAX_FILES = 4
@@ -247,8 +248,8 @@ def _extract_docx(data: bytes, name: str) -> str:
         raise AttachmentError("invalid_docx", f"Nội dung của {name} không phải DOCX hợp lệ.") from exc
 
     try:
-        root = ElementTree.fromstring(xml)
-    except ElementTree.ParseError as exc:
+        root = ElementTree.fromstring(xml, forbid_dtd=True, forbid_entities=True, forbid_external=True)
+    except (ElementTree.ParseError, DefusedXmlException) as exc:
         raise AttachmentError("invalid_docx", f"Không thể đọc DOCX {name}.") from exc
     namespace = "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}"
     paragraphs = []

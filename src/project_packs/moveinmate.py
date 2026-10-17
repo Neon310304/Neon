@@ -56,6 +56,7 @@ def _affirmed_phrase(text: str, phrases: tuple[str, ...]) -> bool:
 class MoveInMatePack:
     pack_id = "moveinmate"
     display_name = "MoveInMate AI"
+    read_only_tool_names = frozenset(_READ_ONLY_TOOLS)
 
     def __init__(self, service: ToolService):
         self.service = service

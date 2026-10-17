@@ -39,6 +39,7 @@ async def test_health_exposes_runtime_not_secrets(client):
     assert body["status"] == "configuration_required"
     assert body["provider"] == "unconfigured"
     assert body["agent"] == "langgraph_reusable_runtime"
+    assert body["rag"] == "bm25_phrase_filtered_chroma"
     assert body["database"] == "postgresql"
     assert body["text_to_speech"] == "configuration_required"
     assert "OPENAI_API_KEY" not in response.text
@@ -194,8 +195,21 @@ async def test_ag_ui_procedure_choices_come_from_authenticated_resident_checklis
     choices = surface["messages"][2]["updateDataModel"]["value"]["procedures"]
     assert {choice["code"] for choice in choices} == {task["code"] for task in tasks}
     components = surface["messages"][1]["updateComponents"]["components"]
-    buttons = [item for item in components if item.get("id", "").startswith("procedure_") and item.get("component") == "Button"]
-    assert len(buttons) == len(tasks)
+    buttons = [item for item in components if item.get("id", "").startswith("related_") and item.get("component") == "Button"]
+    form_codes = {
+        "verify_residency", "temporary_residency", "move_in_schedule", "resident_card",
+        "vehicle_registration", "account_registration", "internet_registration",
+        "visitor_registration", "card_replacement",
+    }
+    expected_actions = {("open_form", task["code"]) for task in tasks if task["code"] in form_codes}
+    if any(task["code"] in {"confirm_regulations", "safety_briefing"} for task in tasks):
+        expected_actions.add(("open_tab", "regulations"))
+    actual_actions = {
+        (item["action"]["event"]["name"], item["action"]["event"]["context"].get("form") or item["action"]["event"]["context"].get("tab"))
+        for item in buttons
+    }
+    assert actual_actions == expected_actions
+    assert len(buttons) == len(expected_actions)
     assert all(item["action"]["event"]["name"] != "send_message" for item in buttons)
     assert any(item["action"]["event"]["context"].get("form") == "resident_card" for item in buttons)
 

@@ -362,12 +362,21 @@ class ToolService:
 
     def search_regulations(self, resident_id: str, query: str, category: str | None = None) -> dict[str, Any]:
         profile = self.get_resident_profile(resident_id)
+        normalized_query = normalize(query)
+        site_procedure = not is_legal_question(query) and (category in {"verify_residency", "resident_card", "vehicle_registration", "visitor_registration", "move_in_schedule", "internet_registration"} or any(
+            phrase in normalized_query for phrase in ("xac nhan thong tin cu tru", "xac nhan cu tru", "the cu dan", "resident card", "dang ky khach", "dang ky phuong tien", "dang ky xe", "dang ky internet", "lich chuyen do")
+        ))
+        site_rules = not is_legal_question(query) and any(phrase in normalized_query for phrase in (
+            "noi quy", "quy dinh cua khu", "gio yen tinh", "ho boi", "be boi", "phong gym",
+            "vat nuoi", "thu cung", "cho meo", "khach", "hanh lang", "giao hang",
+        ))
         guidance = application_guidance(query, category)
         if guidance:
             # A verified policy for THIS building takes precedence over the demo.
             # Public laws and old sample markdown never establish its procedure.
             rows = [row for code in guide_codes(query, category)
-                    for row in self.retriever.search(query, profile["site_id"], code)
+                    for row in self.retriever.search(query, profile["site_id"], code,
+                                                     site_scope="site", source_type="building_policy", legal_status="verified")
                     if row.get("site_id") == profile["site_id"]
                     and row.get("source_type") == "building_policy"
                     and row.get("legal_status") == "verified"]
@@ -375,20 +384,23 @@ class ToolService:
                 return guidance
         else:
             selected_category = category or (legal_category(query) if is_legal_question(query) else None)
-            rows = self.retriever.search(query, profile["site_id"], selected_category)
+            rows = self.retriever.search(query, profile["site_id"], selected_category,
+                                         site_scope="national" if is_legal_question(query) else "site" if site_procedure or site_rules else "all")
+            if not rows and (site_procedure or site_rules):
+                rows = self.retriever.search(query, profile["site_id"], selected_category, site_scope="national")
             if is_legal_question(query):
                 rows = [row for row in rows if row.get("site_id") == "national"]
         if not rows:
             return {"answer_status": "no_valid_source", "requires_human": True, "sources": []}
 
-        normalized_query = normalize(query)
         requested_claims = {
-            "fee": (r"\b(phi|fee|cost|gia|muc phat|tien phat)\b", r"\d[\d.,]*\s*(vnd|dong)", r"\b(phi|fee|cost|gia|phat)\b"),
+            "fee": (r"\b(phi|fee|cost|gia(?![\W_]+dinh\b)|muc phat|tien phat)\b", r"\d[\d.,]*\s*(vnd|dong)", r"\b(phi|fee|cost|gia(?![\W_]+dinh\b)|phat)\b"),
             "deadline": (r"(bao lau|may ngay|deadline|sla|how long)", r"\d+\s*(ngay|gio)", r"thoi han|xu ly|deadline|sla|hoan tat"),
         }
         sources = [
             {
                 "source_id": row["source_id"],
+                "chunk_id": row.get("id", ""),
                 "title": row["title"],
                 "version": row["version"],
                 "site": row["site"],
@@ -398,6 +410,7 @@ class ToolService:
                 "excerpt": row["text"],
                 "source_url": row.get("source_url", ""),
                 "download_url": row.get("download_url", ""),
+                **({"page_number": row["page_number"]} if row.get("page_number") is not None else {}),
                 "publisher": row.get("publisher", ""),
                 "legal_status": row.get("legal_status", ""),
                 "data_partition": "public_law" if row.get("site_id") == "national" else (
@@ -406,13 +419,6 @@ class ToolService:
             }
             for row in rows
         ]
-        site_procedure = not is_legal_question(query) and (category in {"verify_residency", "resident_card", "vehicle_registration", "visitor_registration", "move_in_schedule", "internet_registration"} or any(
-            phrase in normalized_query for phrase in ("xac nhan thong tin cu tru", "xac nhan cu tru", "the cu dan", "resident card", "dang ky khach", "dang ky phuong tien", "dang ky xe", "dang ky internet", "lich chuyen do")
-        ))
-        site_rules = not is_legal_question(query) and any(phrase in normalized_query for phrase in (
-            "noi quy", "quy dinh cua khu", "gio yen tinh", "ho boi", "be boi", "phong gym",
-            "vat nuoi", "thu cung", "cho meo", "khach", "hanh lang", "giao hang",
-        ))
         if (site_procedure or site_rules) and not any(row.get("site_id") == profile["site_id"] for row in rows):
             return {
                 "answer_status": "insufficient_site_evidence", "requires_human": True, "sources": [],
@@ -426,9 +432,9 @@ class ToolService:
         for claim, (pattern, evidence_pattern, label_pattern) in requested_claims.items():
             evidence = False
             for row in rows:
-                for paragraph in re.split(r"\n\s*\n", normalize(row["text"])):
-                    topical = any(contains_phrase(paragraph, phrase) for group in topic_anchors for phrase in group) if topic_anchors else bool(meaningful_terms & set(TOKEN_RE.findall(paragraph)))
-                    if topical and re.search(label_pattern, paragraph) and re.search(evidence_pattern, paragraph) and not re.search(r"khong quy dinh|chua xac minh|not specified", paragraph):
+                for sentence in re.split(r"[!?;]+(?:\s+|$)|\.(?!\d)(?:\s+|$)|\n+", normalize(row["text"])):
+                    topical = all(any(contains_phrase(sentence, phrase) for phrase in group) for group in topic_anchors) if topic_anchors else bool(meaningful_terms & set(TOKEN_RE.findall(sentence)))
+                    if topical and re.search(label_pattern, sentence) and re.search(evidence_pattern, sentence) and not re.search(r"khong quy dinh|chua xac minh|not specified", sentence):
                         evidence = True
             if re.search(pattern, normalized_query) and not evidence:
                 return {

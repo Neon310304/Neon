@@ -1446,8 +1446,8 @@ document.querySelector(".tabs").addEventListener("keydown", (event) => {
   let nextIndex = event.key === "Home" ? 0 : event.key === "End" ? tabs.length - 1 : currentIndex;
   if (event.key === "ArrowLeft") nextIndex = (currentIndex - 1 + tabs.length) % tabs.length;
   if (event.key === "ArrowRight") nextIndex = (currentIndex + 1) % tabs.length;
-  tabs[nextIndex].focus();
   tabs[nextIndex].click();
+  tabs[nextIndex].focus();
 });
 const initialTab = window.location.hash.slice(1);
 function activateInitialTab() {

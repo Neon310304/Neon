@@ -187,7 +187,7 @@ def test_verified_same_site_policy_precedes_demo_and_public_law(tmp_path):
 
 @pytest.mark.asyncio
 async def test_procedure_runs_without_bql_documents_or_model_provider_and_never_writes(app_container, monkeypatch):
-    monkeypatch.setattr(app_container.retriever, "search", lambda *args: [])
+    monkeypatch.setattr(app_container.retriever, "search", lambda *args, **kwargs: [])
 
     def forbidden_model():
         pytest.fail("Application facts must not require an available LLM provider")
@@ -217,7 +217,7 @@ def test_inadequate_sources_are_not_citations_and_best_passage_is_preserved(stat
 
 
 def test_fee_on_unrelated_paragraph_is_not_evidence(app_container, monkeypatch):
-    monkeypatch.setattr(app_container.retriever, "search", lambda *args: [
+    monkeypatch.setattr(app_container.retriever, "search", lambda *args, **kwargs: [
         public_record("common", "regulations", "Hành lang phải thông thoáng.\n\nPhí lắp internet: 200000 đồng.", "sunrise-residence", score=1.0),
     ])
     result = app_container.tool_service.search_regulations("R001", "Phí sử dụng hành lang bao nhiêu?")
@@ -226,9 +226,167 @@ def test_fee_on_unrelated_paragraph_is_not_evidence(app_container, monkeypatch):
 
 
 def test_public_law_is_not_used_to_answer_a_building_quiet_hours_question(app_container, monkeypatch):
-    monkeypatch.setattr(app_container.retriever, "search", lambda *args: [
+    monkeypatch.setattr(app_container.retriever, "search", lambda *args, **kwargs: [
         public_record("national", "housing", "Giờ yên tĩnh và tiếng ồn trong khu chung cư.", score=1.0),
     ])
     result = app_container.tool_service.search_regulations("R001", "Giờ yên tĩnh của khu là mấy giờ?")
     assert result["answer_status"] == "insufficient_site_evidence"
     assert result["sources"] == []
+
+
+def test_guidance_filters_ineligible_sources_before_top_k(tmp_path, monkeypatch):
+    retriever = RegulationRetriever(str(tmp_path), str(tmp_path), include_demo=False)
+    query = "Hướng dẫn thủ tục thẻ cư dân"
+    retriever._records = [
+        public_record(f"decoy-{index}", "resident_card", (query + ". ") * 8,
+                      "national" if index % 3 == 0 else "sunrise-residence",
+                      source_type="demo_bql" if index % 3 == 1 else "building_policy",
+                      legal_status="not_verified" if index % 3 == 2 else "verified")
+        for index in range(36)
+    ] + [public_record("verified-policy", "resident_card", "Thủ tục thẻ cư dân: kiểm tra hồ sơ và gửi Ban quản lý.",
+                       "sunrise-residence", source_type="building_policy", legal_status="verified")]
+    assert "verified-policy" not in {row["source_id"] for row in retriever.search(query, "sunrise-residence", "resident_card")}
+    original_search = retriever.search
+    calls = []
+
+    def search(*args, **kwargs):
+        calls.append(kwargs)
+        return original_search(*args, **kwargs)
+
+    monkeypatch.setattr(retriever, "search", search)
+    service = ToolService(SimpleNamespace(get_resident=lambda _: {"site_id": "sunrise-residence"}), retriever)
+    result = service.search_regulations("R001", query)
+    assert result["answer_status"] == "supported"
+    assert [source["source_id"] for source in result["sources"]] == ["verified-policy"]
+    assert calls == [{"site_scope": "site", "source_type": "building_policy", "legal_status": "verified"}]
+
+
+def test_legal_search_filters_site_sources_before_top_k(tmp_path, monkeypatch):
+    retriever = RegulationRetriever(str(tmp_path), str(tmp_path), include_demo=False)
+    query = "Theo luật nhà ở, cho thuê nhà được quy định thế nào?"
+    passage = "Quyền và nghĩa vụ của bên cho thuê nhà và bên thuê nhà."
+    retriever._records = [
+        public_record(f"site-policy-{index}", "housing", passage, "sunrise-residence")
+        for index in range(36)
+    ] + [public_record("zz-national-law", "housing", passage)]
+    assert "zz-national-law" not in {row["source_id"] for row in retriever.search(query, "sunrise-residence", "housing")}
+    original_search = retriever.search
+    calls = []
+
+    def search(*args, **kwargs):
+        calls.append(kwargs)
+        return original_search(*args, **kwargs)
+
+    monkeypatch.setattr(retriever, "search", search)
+    service = ToolService(SimpleNamespace(get_resident=lambda _: {"site_id": "sunrise-residence"}), retriever)
+    result = service.search_regulations("R001", query)
+    assert result["answer_status"] == "supported"
+    assert [source["source_id"] for source in result["sources"]] == ["zz-national-law"]
+    assert calls == [{"site_scope": "national"}]
+
+
+@pytest.mark.parametrize("text,query,status,claim", [
+    ("Hành lang phải thông thoáng. Phí lắp internet: 200000 đồng.", "Phí sử dụng hành lang bao nhiêu?", "insufficient_evidence", "fee"),
+    ("Hành lang phải thông thoáng. Thời hạn xử lý internet là 3 ngày.", "Xử lý hành lang bao lâu?", "insufficient_evidence", "deadline"),
+    ("Phí sử dụng hành lang là 200.000 đồng.", "Phí sử dụng hành lang bao nhiêu?", "supported", None),
+    ("Thời hạn xử lý hành lang là 1.5 ngày.", "Xử lý hành lang bao lâu?", "supported", None),
+    ("Hành lang rộng 1.5 mét. Phí internet là 200.000 đồng.", "Phí sử dụng hành lang bao nhiêu?", "insufficient_evidence", "fee"),
+    ("Phí sử dụng hành lang chưa xác minh là 200.000 đồng.", "Phí sử dụng hành lang bao nhiêu?", "insufficient_evidence", "fee"),
+])
+def test_claim_evidence_requires_same_topical_sentence(text, query, status, claim):
+    rows = [public_record("policy", "regulations", text, "sunrise-residence", score=1.0)]
+    service = ToolService(SimpleNamespace(get_resident=lambda _: {"site_id": "sunrise-residence"}),
+                          SimpleNamespace(search=lambda *args, **kwargs: rows))
+    result = service.search_regulations("R001", query)
+    assert result["answer_status"] == status
+    assert result.get("missing_claim") == claim
+
+
+def test_search_sources_keep_distinct_page_and_chunk_citations():
+    rows = [public_record("law", "housing", "Quyền và nghĩa vụ của bên cho thuê nhà.",
+                          id=f"law:{page}", score=1.0, page_number=page,
+                          download_url="https://example.test/law.pdf") for page in (1, 2)]
+    service = ToolService(SimpleNamespace(get_resident=lambda _: {"site_id": "sunrise-residence"}),
+                          SimpleNamespace(search=lambda *args, **kwargs: rows))
+    sources = service.search_regulations("R001", "Theo luật nhà ở, cho thuê nhà được quy định thế nào?")["sources"]
+    assert [source["chunk_id"] for source in sources] == ["law:1", "law:2"]
+    assert [source["page_number"] for source in sources] == [1, 2]
+    assert {source["download_url"] for source in sources} == {"https://example.test/law.pdf"}
+
+
+@pytest.mark.parametrize("query,passage", [
+    ("Giờ yên tĩnh bắt đầu lúc nào?", "Giờ yên tĩnh bắt đầu lúc 22 giờ."),
+    ("Có được để giày dép ngoài hành lang không?", "Không để giày dép ngoài hành lang."),
+])
+def test_site_rules_filter_national_chunks_before_top_k(tmp_path, monkeypatch, query, passage):
+    retriever = RegulationRetriever(str(tmp_path), str(tmp_path), include_demo=False)
+    retriever._records = [public_record(f"national-{index}", "regulations", passage)
+                          for index in range(36)] + [
+        public_record("zz-local-policy", "regulations", passage, "sunrise-residence"),
+    ]
+    assert "zz-local-policy" not in {row["source_id"] for row in retriever.search(query, "sunrise-residence")}
+    original_search = retriever.search
+    calls = []
+
+    def search(*args, **kwargs):
+        calls.append(kwargs)
+        return original_search(*args, **kwargs)
+
+    monkeypatch.setattr(retriever, "search", search)
+    service = ToolService(SimpleNamespace(get_resident=lambda _: {"site_id": "sunrise-residence"}), retriever)
+    result = service.search_regulations("R001", query)
+    assert result["answer_status"] == "supported"
+    assert [source["source_id"] for source in result["sources"]] == ["zz-local-policy"]
+    assert calls == [{"site_scope": "site"}]
+
+
+@pytest.mark.parametrize("national_available,status", [(True, "insufficient_site_evidence"), (False, "no_valid_source")])
+def test_site_rules_fallback_preserves_missing_site_evidence(national_available, status):
+    calls = []
+
+    def search(*args, **kwargs):
+        calls.append(kwargs)
+        if kwargs["site_scope"] == "national" and national_available:
+            return [public_record("law", "regulations", "Giờ yên tĩnh bắt đầu lúc 22 giờ.", score=1.0)]
+        return []
+
+    service = ToolService(SimpleNamespace(get_resident=lambda _: {"site_id": "sunrise-residence"}),
+                          SimpleNamespace(search=search))
+    result = service.search_regulations("R001", "Giờ yên tĩnh bắt đầu lúc nào?")
+    assert result["answer_status"] == status
+    assert result["requires_human"] is True
+    assert result["sources"] == []
+    assert calls == [{"site_scope": "site"}, {"site_scope": "national"}]
+
+
+@pytest.mark.parametrize("query,passage,status", [
+    ("Gia đình có được để giày ngoài hành lang không?", "Không để giày dép ngoài hành lang.", "supported"),
+    ("Phí sử dụng hành lang bao nhiêu?", "Gia đình ở hành lang đã đóng 200.000 đồng.", "insufficient_evidence"),
+    ("Giá sử dụng hành lang bao nhiêu?", "Giá sử dụng hành lang là 200.000 đồng.", "supported"),
+    ("Gia đình trả phí sử dụng hành lang bao nhiêu?", "Hành lang phải thông thoáng.", "insufficient_evidence"),
+])
+def test_family_phrase_is_not_a_price_claim_or_label(query, passage, status):
+    rows = [public_record("policy", "regulations", passage, "sunrise-residence", score=1.0)]
+    service = ToolService(SimpleNamespace(get_resident=lambda _: {"site_id": "sunrise-residence"}),
+                          SimpleNamespace(search=lambda *args, **kwargs: rows))
+    result = service.search_regulations("R001", query)
+    assert result["answer_status"] == status
+    if status == "insufficient_evidence":
+        assert result["missing_claim"] == "fee"
+
+
+@pytest.mark.parametrize("query,passage,status", [
+    ("Phí ô tô bao nhiêu?", "Ô tô chưa quy định phí. Phí xe máy:50000 đồng.", "insufficient_evidence"),
+    ("Phí ô tô bao nhiêu?", "Phí ô tô:50000 đồng.", "supported"),
+    ("Phí ô tô tại hồ bơi bao nhiêu?", "Ô tô chưa quy định phí. Phí hồ bơi:50000 đồng.", "insufficient_evidence"),
+    ("Phí ô tô tại hồ bơi bao nhiêu?", "Phí ô tô tại hồ bơi:50000 đồng.", "supported"),
+])
+def test_fee_sentence_must_support_all_requested_topics(query, passage, status):
+    rows = [public_record("policy", "vehicle_registration", passage, "sunrise-residence",
+                          source_type="building_policy", legal_status="verified", score=1.0)]
+    service = ToolService(SimpleNamespace(get_resident=lambda _: {"site_id": "sunrise-residence"}),
+                          SimpleNamespace(search=lambda *args, **kwargs: rows))
+    result = service.search_regulations("R001", query)
+    assert result["answer_status"] == status
+    if status == "insufficient_evidence":
+        assert result["missing_claim"] == "fee"

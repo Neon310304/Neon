@@ -46,6 +46,25 @@ def configured_endpoint(value: str) -> bool:
         return False
 
 
+def is_silent_pcm_wav(content: bytes) -> bool:
+    try:
+        with wave.open(io.BytesIO(content), "rb") as recording:
+            if recording.getcomptype() != "NONE":
+                return False
+            frame_size = recording.getsampwidth() * recording.getnchannels()
+            silence = b"\x80" if recording.getsampwidth() == 1 else b"\0"
+            remaining = recording.getnframes()
+            while remaining:
+                frame_count = min(remaining, 4096)
+                frames = recording.readframes(frame_count)
+                if len(frames) != frame_count * frame_size or frames.strip(silence):
+                    return False
+                remaining -= frame_count
+            return True
+    except (wave.Error, EOFError, ValueError):
+        return False
+
+
 class PtitTextToSpeech:
     def __init__(self, endpoint: str, timeout_seconds: int = 30):
         self.endpoint = endpoint.strip()
@@ -111,6 +130,8 @@ class PtitSpeechToText:
             raise PtitSpeechError("audio_required", "Bản ghi âm đang trống.", 422)
         if len(content) > MAX_OMICX_AUDIO_BYTES:
             raise PtitSpeechError("audio_too_large", "Bản ghi âm vượt quá giới hạn 25 MB.", 413)
+        if is_silent_pcm_wav(content):
+            raise PtitSpeechError("speech_not_detected", "Chưa nhận ra lời nói. Vui lòng thử ghi âm lại.", 422)
         try:
             async with httpx.AsyncClient(timeout=httpx.Timeout(90.0, connect=10.0)) as client:
                 response = await client.post(

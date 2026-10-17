@@ -649,7 +649,7 @@ async def health(request: Request) -> HealthResponse:
         provider=provider,
         model=model,
         agent="langgraph_reusable_runtime",
-        rag="chroma_local_hash_embeddings",
+        rag="bm25_phrase_filtered_chroma",
         database=app.store.engine.url.get_backend_name(),
         tools=TOOL_NAMES,
         speech_to_text=app.settings.stt_provider if app.speech_to_text.configured else "configuration_required",

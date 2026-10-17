@@ -2,9 +2,17 @@
 
 Ứng dụng hỗ trợ cư dân làm thủ tục căn hộ và Ban quản lý tiếp nhận, yêu cầu bổ sung, duyệt và hoàn thành ticket. Trợ lý hỗ trợ hỏi đáp có nguồn, đọc tệp/ảnh để chuẩn bị biểu mẫu và nhắc thông tin còn thiếu; cư dân luôn kiểm tra, xác nhận trước khi gửi.
 
-Backend dùng FastAPI, LangGraph, PostgreSQL và Chroma. Giao diện dùng HTML/CSS/JavaScript, đăng nhập nội bộ với JWT.
+Backend dùng FastAPI, LangGraph và PostgreSQL. Giao diện dùng HTML/CSS/JavaScript, đăng nhập nội bộ với JWT.
 
 Đây là snapshot mã ứng dụng, không kèm database đang sử dụng, tệp cư dân, API key, mật khẩu vận hành hoặc cấu hình AWS riêng. Push vào repository này không tự triển khai web AWS.
+
+## Agent và RAG
+
+LangGraph gọi công cụ theo quyền của người đăng nhập, xếp hàng các lượt trong cùng hội thoại, giới hạn số bước và ngăn thực thi lặp công cụ trong một lượt. Lịch sử được nén theo nhóm gọi công cụ đầy đủ để không làm hỏng dữ liệu đầu vào hoặc bỏ mất kết quả.
+
+RAG tìm trên tài liệu PostgreSQL bằng BM25 kết hợp cụm từ và từ khóa tiếng Việt. Bộ lọc khu, loại nguồn và trạng thái xác minh được áp dụng trước khi chọn kết quả; trích dẫn giữ thông tin đoạn và trang. Bản này không dùng Chroma hoặc thêm API embedding trả phí; biến `CHROMA_PERSIST_DIR` được giữ để tương thích cấu hình cũ, không cần xóa thư mục chỉ mục cũ.
+
+Các giới hạn hội thoại hiện áp dụng trong một worker, chưa phải khóa phân tán hay checkpoint bền vững. Kiểm thử tự động không thay thế bộ câu hỏi nghiệp vụ được BQL gán nhãn; chưa có tỷ lệ độ chính xác RAG được xác nhận.
 
 ## Cấu trúc
 
@@ -16,6 +24,7 @@ Backend dùng FastAPI, LangGraph, PostgreSQL và Chroma. Giao diện dùng HTML/
 | `scripts/` | Migration, seed demo, nguồn công khai, danh mục khu và backup |
 | `tests/`, `eval/fixtures/` | Kiểm thử và dữ liệu tổng hợp phục vụ kiểm thử |
 | `Dockerfile`, `docker-compose.yml` | Backend và PostgreSQL chạy bằng Docker |
+| `requirements-runtime.txt`, `requirements.txt` | Dependency chạy ứng dụng và bộ công cụ phát triển/kiểm thử |
 | `.env.example` | Mẫu cấu hình; các khóa và mật khẩu riêng để trống |
 
 ## Chạy bằng Docker Desktop
@@ -87,8 +96,14 @@ Danh sách URL gốc ở `scripts/public_sources.json`; danh mục tên khu và 
 
 Backend có kiểm thử PostgreSQL trên `moveinmate_test`, tách khỏi DB ứng dụng. Script khởi tạo DB test chạy khi volume PostgreSQL được tạo lần đầu. Test API dùng dữ liệu tổng hợp và thay thế kết nối nhà cung cấp khi cần, không chứng minh độ chính xác tuyệt đối của OCR/model thật.
 
+Image Docker chỉ cài dependency runtime, không chứa pytest, Ruff hoặc trình cài gói. Chạy kiểm thử bằng Python 3.11 trở lên trên máy, sau khi cấu hình `DATABASE_URL` và `TEST_DATABASE_URL` trong `.env` theo cổng PostgreSQL trên host. DB test phải khác DB ứng dụng; fixture có thao tác xóa dữ liệu DB test.
+
 ```powershell
-docker compose run --rm --no-deps -e APP_ENV=test backend python -m pytest tests/test_attachments.py tests/test_form_extraction.py tests/test_request_drafts.py tests/test_public_speech.py tests/test_private_speech_config.py -q
+python -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+$env:APP_ENV = 'test'
+.\.venv\Scripts\python.exe -m pytest tests/test_agent_orchestration.py tests/test_context_tool_history.py tests/test_rag_retrieval.py tests/test_attachments.py tests/test_form_extraction.py tests/test_request_drafts.py tests/test_public_speech.py tests/test_private_speech_config.py -q
+Remove-Item Env:APP_ENV
 ```
 
 Kiểm thử JavaScript cần Node.js 22 trở lên:
@@ -113,7 +128,7 @@ SELECT COUNT(*) AS chunks FROM knowledge_chunks;
 
 ## Dữ liệu và bảo mật
 
-- PostgreSQL lưu trong volume `moveinmate-neon_postgres_data`; Chroma trong `moveinmate-neon_backend_runtime`. Tệp tải về nằm trong thư mục `data/` trên máy chạy.
+- PostgreSQL lưu trong volume `moveinmate-neon_postgres_data`; volume `moveinmate-neon_backend_runtime` giữ thư mục runtime tương thích cấu hình cũ. Tệp tải về nằm trong thư mục `data/` trên máy chạy.
 - `docker compose down` giữ volume; `docker compose down -v` xóa dữ liệu. Không xóa volume để vượt lỗi migration; cần backup trước khi nâng cấp DB đã có dữ liệu.
 - Thay `.env` rồi dùng `docker compose up -d --no-deps backend` để nạp lại; `restart` không nạp biến môi trường mới.
 - Không commit `.env`, khóa riêng, bản backup DB, giấy tờ cư dân hoặc tệp upload. Chỉ `.env.example` được chia sẻ.

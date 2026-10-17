@@ -1,6 +1,6 @@
-import hashlib
 import math
 import re
+from collections import Counter
 from pathlib import Path
 from threading import RLock
 from typing import Any
@@ -12,17 +12,22 @@ SEARCH_STOPWORDS = {
     "toi", "ban", "co", "duoc", "khong", "la", "ve", "cho", "cua", "va",
     "nhung", "nhu", "the", "nao", "gi", "hay", "can", "biet", "hoi", "xin",
     "trong", "khu", "dan", "cu", "quy", "dinh", "noi", "quy",
-    "thu", "tuc", "dang", "ky", "huong", "dan", "cac", "lien", "quan",
+    "thu", "tuc", "dang", "ky", "huong", "dan", "cac", "lien", "quan", "tu",
     "cung", "cap", "thong", "tin", "bao", "nhieu", "theo", "luat", "nghi",
 }
 
 # A coherent subject must occur in the passage, not just loose syllables
 # scattered through an unrelated legal document or its title.
 TOPIC_ANCHORS = (
-    (("xe may", "o to", "dang ky xe", "gui xe", "phuong tien"), ("xe may", "o to", "gui xe", "phuong tien", "bai do xe", "bien so")),
+    (("xe may", "xe mo to"), ("xe may", "xe mo to")),
+    (("o to", "xe hoi"), ("o to", "xe hoi")),
+    (("dang ky xe", "gui xe", "phuong tien"), ("xe may", "xe mo to", "o to", "xe hoi", "gui xe", "phuong tien", "bai do xe", "bien so")),
     (("cho thue", "thue nha", "nguoi thue"), ("cho thue", "thue nha", "ben thue", "nguoi thue")),
     (("the cu dan", "resident card"), ("the cu dan", "resident card")),
-    (("tam tru", "cu tru"), ("tam tru", "cu tru", "luu tru")),
+    (("tam tru",), ("tam tru",)),
+    (("thuong tru",), ("thuong tru",)),
+    (("luu tru",), ("luu tru",)),
+    (("cu tru",), ("tam tru", "thuong tru", "cu tru", "luu tru")),
     (("khach", "qua dem"), ("khach", "qua dem", "luu tru")),
     (("cho canh", "cho meo", "thu cung", "con cho", "con meo", "vat nuoi"), ("vat nuoi", "thu cung", "cho meo")),
     (("gio yen tinh", "on ao", "lam on", "tieng on"), ("yen tinh", "tieng on", "on ao")),
@@ -35,18 +40,6 @@ TOPIC_ANCHORS = (
 
 def normalize(text: str) -> str:
     return fold_text(text)
-
-
-def embed(text: str, dimensions: int = 384) -> list[float]:
-    """Create a deterministic local feature-hashing embedding for Chroma."""
-    vector = [0.0] * dimensions
-    for token in TOKEN_RE.findall(normalize(text)):
-        digest = hashlib.blake2b(token.encode("utf-8"), digest_size=8).digest()
-        bucket = int.from_bytes(digest[:4], "big") % dimensions
-        sign = 1.0 if digest[4] % 2 == 0 else -1.0
-        vector[bucket] += sign
-    norm = math.sqrt(sum(value * value for value in vector)) or 1.0
-    return [value / norm for value in vector]
 
 
 def parse_document(path: Path) -> tuple[dict[str, Any], str]:
@@ -63,17 +56,22 @@ def parse_document(path: Path) -> tuple[dict[str, Any], str]:
 
 
 def chunks(body: str, max_chars: int = 900) -> list[str]:
-    paragraphs = [part.strip() for part in body.split("\n\n") if part.strip()]
+    if max_chars <= 0:
+        raise ValueError("max_chars must be positive")
     output: list[str] = []
-    current = ""
-    for paragraph in paragraphs:
-        if current and len(current) + len(paragraph) + 2 > max_chars:
-            output.append(current)
-            current = paragraph
-        else:
-            current = f"{current}\n\n{paragraph}".strip()
-    if current:
-        output.append(current)
+    start = 0
+    while start < len(body):
+        end = min(start + max_chars, len(body))
+        if end < len(body):
+            window = body[start:end]
+            for pattern in (r"\n\s*\n", r"[.!?;](?:\s+)", r"\s+"):
+                boundaries = [match.end() for match in re.finditer(pattern, window)
+                              if match.end() >= max_chars // 2]
+                if boundaries:
+                    end = start + boundaries[-1]
+                    break
+        output.append(body[start:end])
+        start = end
     return output
 
 
@@ -85,11 +83,11 @@ class RegulationRetriever:
         self.knowledge_store = knowledge_store
         self.include_demo = include_demo
         self._records: list[dict[str, Any]] = []
-        self._collection = None
-        self._client = None
         self._lock = RLock()
         self._initialized = False
         self._database_revision: tuple = ()
+        self._lexical_key: tuple = ()
+        self._lexical: list[tuple] = []
 
     def initialize(self) -> None:
         with self._lock:
@@ -101,12 +99,10 @@ class RegulationRetriever:
 
     def close(self) -> None:
         with self._lock:
-            self._collection = None
             self._records = []
             self._initialized = False
-            client, self._client = self._client, None
-            if client is not None:
-                client.close()
+            self._lexical_key = ()
+            self._lexical = []
 
     def _initialize(self) -> None:
         self._records = []
@@ -121,28 +117,6 @@ class RegulationRetriever:
                 self._records.append({"id": f"{metadata['source_id']}:{index}", "text": chunk, **metadata})
         if self.knowledge_store:
             self._records.extend(self.knowledge_store.list_chunks())
-        ids = [record["id"] for record in self._records]
-        documents = [record["text"] for record in self._records]
-        metadatas = [{key: value for key, value in record.items()
-                      if key not in {"text", "id"} and isinstance(value, (str, int, float, bool))}
-                     for record in self._records]
-        embeddings = [embed(record["text"]) for record in self._records]
-        try:
-            import chromadb
-
-            if self._client is None:
-                self._client = chromadb.PersistentClient(path=self.persist_dir)
-            self._collection = self._client.get_or_create_collection(
-                "moveinmate_regulations" if self.include_demo else "moveinmate_public_regulations",
-                metadata={"hnsw:space": "cosine"},
-            )
-            stale_ids = set(self._collection.get(include=[])["ids"]) - set(ids)
-            if stale_ids:
-                self._collection.delete(ids=sorted(stale_ids))
-            if ids:
-                self._collection.upsert(ids=ids, documents=documents, metadatas=metadatas, embeddings=embeddings)
-        except ImportError:
-            self._collection = None
         self._initialized = True
 
     def list_documents(self, site_id: str) -> list[dict[str, Any]]:
@@ -155,42 +129,96 @@ class RegulationRetriever:
                 documents.append({**metadata, "body": body})
         return documents
 
-    def search(self, query: str, site_id: str, category: str | None = None, limit: int = 8) -> list[dict[str, Any]]:
-        revision = self.knowledge_store.revision() if self.knowledge_store else ()
-        if (not self._records and not self._initialized) or revision != self._database_revision:
-            self.initialize()
-        normalized_query = normalize(query)
+    def search(self, query: str, site_id: str, category: str | None = None, limit: int = 8, *,
+               source_type: str | None = None, legal_status: str | None = None,
+               site_scope: str = "all") -> list[dict[str, Any]]:
+        if limit <= 0 or site_scope not in {"all", "site", "national"}:
+            return []
+        with self._lock:
+            revision = self.knowledge_store.revision() if self.knowledge_store else ()
+            if (not self._records and not self._initialized) or revision != self._database_revision:
+                self.initialize()
+            records = [dict(record) for record in self._records]
+            lexical_key = tuple((record["text"], record["title"], record["section"]) for record in records)
+            if lexical_key != self._lexical_key:
+                self._lexical = []
+                for text, title, section in lexical_key:
+                    body = normalize(text)
+                    body_counts = Counter(TOKEN_RE.findall(body))
+                    title_counts = Counter(TOKEN_RE.findall(normalize(f"{title} {section}")))
+                    self._lexical.append((body, body_counts, title_counts))
+                self._lexical_key = lexical_key
+            lexical = tuple(self._lexical)
+        allowed_sites = {site_id, "national"} if site_scope == "all" else {site_id} if site_scope == "site" else {"national"}
+        candidates = [(record, features) for record, features in zip(records, lexical, strict=True)
+                      if record.get("site_id") in allowed_sites
+                      and record.get("active") is not False
+                      and (not category or record.get("category") == category)
+                      and (source_type is None or record.get("source_type") == source_type)
+                      and (legal_status is None or record.get("legal_status") == legal_status)]
+        if not candidates:
+            return []
+        normalized_query = re.sub(r"\b(?:phap luat|the law|by law)\b", "luat", normalize(query))
+        if any(contains_phrase(normalized_query, phrase) for phrase in ("gio yen tinh", "quiet hours")):
+            normalized_query = re.sub(r"\bquiet hours\b", "gio yen tinh", normalized_query)
+            normalized_query = re.sub(
+                r"\b(?:bat dau (?:luc nao|khi nao|tu may gio)|start at(?: what time)?|what time do|when do)\b",
+                "", normalized_query,
+            )
+        normalized_query = re.sub(r"\bmay gio(?= yen tinh\b)", "gio", normalized_query)
+        normalized_query = re.sub(r"\b(?:o dau|luc nao|khi nao|(?:tu )?may gio)\b", "", normalized_query)
         terms = {term for term in TOKEN_RE.findall(normalized_query) if len(term) > 1 and term not in SEARCH_STOPWORDS}
-        if any(word in normalized_query for word in ("cho canh", "cho meo", "thu cung", "con cho", "con meo")):
-            terms.update({"vat", "nuoi"})
-        if "on ao" in normalized_query or "lam on" in normalized_query:
-            terms.update({"tieng", "yen", "tinh"})
         broad_rules = not terms and any(phrase in normalized_query for phrase in ("noi quy", "quy dinh"))
-        anchors = [synonyms for triggers, synonyms in TOPIC_ANCHORS
-                   if any(contains_phrase(normalized_query, phrase) for phrase in triggers)]
+        anchors = []
+        residual_terms = set(terms)
+        expanded_terms = set(terms)
+        for triggers, synonyms in TOPIC_ANCHORS:
+            matched_triggers = [phrase for phrase in triggers if contains_phrase(normalized_query, phrase)]
+            if matched_triggers:
+                anchors.append(synonyms)
+                residual_terms.difference_update(word for phrase in matched_triggers for word in phrase.split())
+                expanded_terms.update(word for phrase in synonyms for word in phrase.split()
+                                      if len(word) > 1 and word not in SEARCH_STOPWORDS)
+        query_tokens = TOKEN_RE.findall(normalized_query)
+        phrases = {" ".join(query_tokens[index:index + 2]) for index in range(len(query_tokens) - 1)
+                   if any(word not in SEARCH_STOPWORDS for word in query_tokens[index:index + 2])}
+        document_frequency = Counter()
+        lengths = []
+        for _, (_, body_counts, title_counts) in candidates:
+            document_frequency.update(body_counts.keys() | title_counts.keys())
+            lengths.append(sum(body_counts.values()))
+        average_length = sum(lengths) / len(lengths) or 1.0
         rows = []
-        for record in self._records:
-            if record["site_id"] not in {site_id, "national"} or (category and record["category"] != category):
-                continue
-            body = normalize(record["text"])
-            body_terms = set(TOKEN_RE.findall(body))
-            title_terms = set(TOKEN_RE.findall(normalize(f"{record['title']} {record['section']}")))
+        for (record, (body, body_counts, title_counts)), length in zip(candidates, lengths, strict=True):
+            body_terms = body_counts.keys()
+            title_terms = title_counts.keys()
             matched_body = terms & body_terms
             matched_title = terms & title_terms
-            coherent_subject = any(contains_phrase(body, phrase) for group in anchors for phrase in group)
+            coherent_subject = bool(anchors) and all(any(contains_phrase(body, phrase) for phrase in group) for group in anchors)
             if "muc luc" in body and "muc luc" not in normalized_query:
                 continue
             if anchors and not coherent_subject:
                 continue
-            if terms and not broad_rules and (len(matched_body) < min(2, len(terms))
-                                    or len(matched_body | matched_title) / max(1, len(terms)) < 0.4):
+            required_terms = residual_terms if coherent_subject else terms
+            if required_terms and not broad_rules and (len(required_terms & body_terms) < min(2, len(required_terms))
+                                    or len(required_terms & (body_terms | title_terms)) / len(required_terms) < 0.4):
                 continue
             if not (matched_body or matched_title or coherent_subject or (broad_rules and record["category"] == "regulations")):
                 continue
-            score = (len(matched_body) + 2 * len(matched_title)) / max(1, len(terms))
+            score = 0.0
+            for term in sorted(expanded_terms):
+                frequency = body_counts[term] + 0.35 * title_counts[term]
+                if not frequency:
+                    continue
+                inverse_frequency = math.log1p((len(candidates) - document_frequency[term] + 0.5)
+                                               / (document_frequency[term] + 0.5))
+                score += inverse_frequency * frequency * 2.2 / (frequency + 1.2 * (0.25 + 0.75 * length / average_length)) * (1.0 if term in terms else 0.35)
+            score += 0.5 * sum(contains_phrase(body, phrase) for phrase in sorted(phrases))
             if coherent_subject:
                 score += 1
             if broad_rules and record["category"] == "regulations":
                 score += 1
             rows.append({**record, "score": round(score, 4)})
-        return sorted(rows, key=lambda row: row["score"], reverse=True)[:limit if broad_rules else min(limit, 4)]
+        return sorted(rows, key=lambda row: (-row["score"], str(row.get("source_id", "")),
+                                            str(row.get("id", "")), str(row.get("section", "")),
+                                            row["text"]))[:limit if broad_rules else min(limit, 4)]

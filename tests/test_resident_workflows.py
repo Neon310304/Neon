@@ -19,7 +19,7 @@ from src.repositories.store import (
     now_utc,
 )
 from src.services import login_reset
-from src.services.demo_accounts import ensure_default_accounts
+from src.services.demo_accounts import SAMPLE_PASSWORD, ensure_default_accounts
 from src.services.vehicle_documents import extract_vehicle_fields, normalize_vehicle_document
 from tests.test_local_auth_api import local_client as local_client
 from tests.test_local_auth_api import local_container as local_container
@@ -207,7 +207,7 @@ async def test_manager_reset_retains_chosen_username_and_private_password(local_
     assert saved.status_code == 204
 
 
-def test_renamed_default_account_survives_startup_and_reset(local_container):
+def test_renamed_default_account_survives_startup_and_returns_to_defaults_on_reset(local_container):
     local_container.settings.login_reset_enabled = True
     login_reset.capture_baseline(local_container.store, "sunrise-residence")
     ensure_default_accounts(local_container)
@@ -217,8 +217,19 @@ def test_renamed_default_account_survives_startup_and_reset(local_container):
     assert local_container.store.get_local_credential(username="demo001") is None
     assert local_container.store.get_local_credential(username="chosen.demo")["creation_key"] == "local-showcase-v1-1"
     login_reset.reset_application(local_container, "local:admin")
-    assert local_container.store.get_local_credential(username="chosen.demo") is not None
-    assert local_container.store.get_local_credential(username="demo001") is None
+    restored = local_container.store.get_local_credential(username="demo001")
+    assert local_container.store.get_local_credential(username="chosen.demo") is None
+    assert restored["creation_key"] == credential["creation_key"]
+    assert restored["auth_subject"] == credential["auth_subject"]
+    assert restored["resident_id"] == credential["resident_id"]
+    assert restored["password_change_required"] is True
+    assert restored["username_change_required"] is True
+    assert local_container.local_auth.verify_password("demo001", SAMPLE_PASSWORD) == credential["auth_subject"]
+    from src.security import AuthenticationError
+
+    for username, password in (("chosen.demo", "My-Private-2026!"), ("demo001", "My-Private-2026!")):
+        with pytest.raises(AuthenticationError):
+            local_container.local_auth.verify_password(username, password)
 
 
 @pytest.mark.asyncio

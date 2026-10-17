@@ -174,16 +174,52 @@ def test_public_retriever_uses_database_not_demo_files_and_refreshes(knowledge, 
     assert rows[0]["source_id"] == SOURCE["source_id"]
     assert rows[0]["site_id"] == "national"
     assert rows[0]["source_url"] == SOURCE_URL
-    assert retriever._collection.count() == 1
+    assert len(retriever._records) == 1
+    assert {record["id"] for record in retriever._records} == {record["id"] for record in knowledge.list_chunks()}
     crawl_data.crawl_source(SOURCE, FixtureFetcher(pdf_bytes("Updated public residency statement for unit tests. " * 40)), knowledge, tmp_path / "archive")
     rows = retriever.search("Updated public residency", "another-building")
     assert "Updated" in rows[0]["text"]
-    assert retriever._collection.count() == row_count(knowledge, KnowledgeChunk)
+    assert len(retriever._records) == row_count(knowledge, KnowledgeChunk)
+    assert {record["id"] for record in retriever._records} == {record["id"] for record in knowledge.list_chunks()}
     assert retriever.list_documents("any-building")[0]["source_url"] == SOURCE_URL
 
 
 def test_demo_knowledge_is_disabled_by_default():
     assert Settings(_env_file=None).include_demo_knowledge is False
+
+
+@pytest.mark.parametrize("field,value", [
+    ("source_type", "building_policy"),
+    ("category", "housing"),
+    ("legal_status", "verified"),
+    ("title", "Refreshed public residency title"),
+    ("document_number", "REFRESH/2026"),
+    ("publisher", "Updated test publisher"),
+    ("source_url", "https://congbao.chinhphu.vn/van-ban/refreshed.htm"),
+    ("provenance_json", None),
+])
+def test_public_retriever_refreshes_metadata_without_content_or_timestamp_change(knowledge, tmp_path, request, field, value):
+    crawl_data.crawl_source(SOURCE, FixtureFetcher(), knowledge, tmp_path / "archive")
+    retriever = RegulationRetriever(str(tmp_path), str(tmp_path / "chroma"), knowledge, include_demo=False)
+    request.addfinalizer(retriever.close)
+    original = retriever.search("residency", "any-building")[0]
+    revision = knowledge.revision()
+    with knowledge.store.session() as session:
+        document = session.get(KnowledgeDocument, SOURCE["source_id"])
+        if field == "provenance_json":
+            provenance = json.loads(document.provenance_json)
+            provenance["metadata_refresh"] = "unit-test"
+            value = json.dumps(provenance)
+        setattr(document, field, value)
+    assert knowledge.revision() != revision
+    refreshed = retriever.search("residency", "any-building")[0]
+    assert refreshed["text"] == original["text"]
+    assert refreshed["content_sha256"] == original["content_sha256"]
+    assert refreshed["fetched_at"] == original["fetched_at"]
+    if field == "provenance_json":
+        assert refreshed["provenance"] == json.loads(value)
+    else:
+        assert refreshed[field] == value
 
 
 @pytest.mark.asyncio
@@ -210,6 +246,9 @@ def test_public_tool_includes_page_and_legal_status(app_container, tmp_path):
     crawl_data.crawl_source(SOURCE, FixtureFetcher(), app_container.knowledge_store, tmp_path)
     result = app_container.tool_service.search_regulations("R001", "public residency", "residency")
     assert result["sources"][0]["source_url"] == SOURCE_URL
+    assert result["sources"][0]["chunk_id"] == f"{SOURCE['source_id']}:0"
+    assert result["sources"][0]["page_number"] == 1
+    assert result["sources"][0]["download_url"] == PDF_URL
     assert "trang 1" in result["sources"][0]["section"]
     assert result["requires_human"] is True
     assert "không phải nội quy" in result["source_notice"]

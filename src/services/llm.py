@@ -49,7 +49,12 @@ class ProviderCompatibleChatOpenAI(ChatOpenAI):
                 # LangChain otherwise drops the parsed call and skips execution.
                 if len(calls) == 1 and calls[0].get("index") is None:
                     calls[0]["index"] = 0
-        return super()._convert_chunk_to_generation_chunk(chunk, default_chunk_class, base_generation_info)
+        result = super()._convert_chunk_to_generation_chunk(chunk, default_chunk_class, base_generation_info)
+        if result is not None and isinstance(result.message, AIMessage) and chunk.get("choices"):
+            calls = (chunk["choices"][0].get("delta") or {}).get("tool_calls")
+            if calls and "tool_calls" not in result.message.additional_kwargs:
+                result.message.additional_kwargs["tool_calls"] = deepcopy(calls)
+        return result
 
     def _get_request_payload(
         self,

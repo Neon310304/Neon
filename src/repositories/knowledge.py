@@ -127,5 +127,8 @@ class KnowledgeStore:
     def revision(self) -> tuple:
         with self.store.session() as session:
             return tuple(session.execute(select(
-                KnowledgeDocument.id, KnowledgeDocument.content_sha256, KnowledgeDocument.fetched_at
+                KnowledgeDocument.id, KnowledgeDocument.content_sha256, KnowledgeDocument.fetched_at,
+                KnowledgeDocument.source_type, KnowledgeDocument.category, KnowledgeDocument.legal_status,
+                KnowledgeDocument.title, KnowledgeDocument.document_number, KnowledgeDocument.publisher,
+                KnowledgeDocument.provenance_json, KnowledgeDocument.source_url
             ).where(KnowledgeDocument.active.is_(True)).order_by(KnowledgeDocument.id)).all())

@@ -139,7 +139,7 @@ def test_rag_fails_closed_for_unsupported_fee(app_container):
 
 
 def test_public_law_does_not_establish_building_card_procedure(app_container, monkeypatch):
-    monkeypatch.setattr(app_container.retriever, "search", lambda *args: [{
+    monkeypatch.setattr(app_container.retriever, "search", lambda *args, **kwargs: [{
         "source_id": "TEST-PUBLIC-LAW", "title": "Public housing law", "version": "test",
         "site": "Pháp luật Việt Nam", "site_id": "national", "effective_date": "", "section": "Test section",
         "score": 1.0, "text": "A general legal rule unrelated to building card issuance.", "legal_status": "not_verified",
