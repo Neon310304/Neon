@@ -1,0 +1,177 @@
+.appearance-toggle { display:inline-flex; align-items:center; justify-content:center; gap:8px; min-width:44px; min-height:44px; padding:10px 13px; border:1px solid var(--border-subtle); border-radius:999px; background:var(--glass-regular); color:var(--ink); font:inherit; font-size:.75rem; font-weight:600; cursor:pointer; }
+body > header > .appearance-toggle { grid-column:4; grid-row:1; }
+.appearance-toggle .ui-icon { width:18px; height:18px; flex-shrink:0; }
+.appearance-toggle .appearance-sun { display:none; }
+[data-theme="dark"] .appearance-toggle .appearance-sun { display:block; }
+[data-theme="dark"] .appearance-toggle .appearance-moon { display:none; }
+
+:root[data-theme="dark"] {
+  --paper:#0b1421;
+  --surface:#142235;
+  --surface-soft:#1c2d43;
+  --ink:#ecf3fc;
+  --muted:#b0c2d6;
+  --green:#a0cdff;
+  --green-soft:#1d3552;
+  --focus:#b1daff;
+  --border-subtle:#344a63;
+  --border-control:#718ba6;
+  --line:#344a63;
+  --accent-soft:#273a57;
+  --glass-clear:#15263b9e;
+  --glass-regular:#17283dcc;
+  --glass-content:#142235f5;
+  --glass-rim:#b4d6ff30;
+  --glass-lift:0 16px 48px -24px #0009,inset 0 1px 0 #d2e8ff20;
+  --button-outline:#5e83a8;
+  --button-soft:#223b56;
+  --button-soft-hover:#2b4968;
+  --action-fill:#79b4e8;
+  --action-hover:#96c9f5;
+  --action-ink:#0c2136;
+  --living-ink:var(--ink);
+  --living-muted:var(--muted);
+  --brand:#a0cdff;
+  --night-danger:#ffb8bc;
+  --night-danger-surface:#39212e;
+  --night-success:#a1e7c5;
+  --night-success-surface:#173b32;
+  --night-warning:#f4d693;
+  --night-warning-surface:#3c3220;
+  --night-complete:#afd6ff;
+  --night-complete-surface:#1b3653;
+  --success-ink:var(--night-success);
+  --success-soft:var(--night-success-surface);
+  --status-pending-ink:var(--night-warning);
+  --status-pending-soft:var(--night-warning-surface);
+  --status-approved-ink:var(--night-success);
+  --status-approved-soft:var(--night-success-surface);
+  --status-completed-ink:var(--night-complete);
+  --status-completed-soft:var(--night-complete-surface);
+  --status-error-ink:var(--night-danger);
+  --status-error-soft:var(--night-danger-surface);
+  color-scheme:dark;
+  scrollbar-color:#5b7793 var(--paper);
+}
+[data-theme="dark"] body { color:var(--ink); background:var(--paper); }
+[data-theme="dark"] .ambient-scene { background:radial-gradient(ellipse at 15% 10%,#18334d,transparent 55%),linear-gradient(140deg,#0b1421,#102538 65%,#111a30); }
+[data-theme="dark"] .ambient-scene::after { background:radial-gradient(ellipse at 70% 20%,#0c182340,transparent 60%),linear-gradient(180deg,#09121c20,#09121ca6); }
+[data-theme="dark"] .aurora { opacity:.2; }
+[data-theme="dark"] .aurora-four { opacity:.1; }
+[data-theme="dark"] :is(.ambient-contour,.ambient-ribbon,.ambient-grid) { opacity:.1; }
+[data-theme="dark"] .ambient-lights { opacity:.32; }
+[data-theme="dark"] :is(body > header,.tabs,.chat-widget-header,.manager-agent-header,.chat-toolbar,.composer,.manager-agent-form,.stage-chip,.chat-launcher) { color:var(--ink); background:var(--glass-regular); border-color:var(--glass-rim); box-shadow:var(--glass-lift); -webkit-backdrop-filter:blur(24px) saturate(140%); backdrop-filter:blur(24px) saturate(140%); }
+[data-theme="dark"] :is(.auth-card,.panel:not(#agent),.services-card,.start-card,.request-card,.household-card,.task,.reading-card,.document-card,.notification-group,.notification-card,.account-side > section) { color:var(--ink); background:var(--surface); border-color:var(--border-subtle); box-shadow:0 12px 32px -22px #0009,inset 0 1px 0 #d4e8ff0a; }
+[data-theme="dark"] :is(.brand .brand-name,.auth-intro-title,.hero h1,.start-card h2,.services-card h2,.section-heading h2,.task-title,.reading-card h3,.document-card h3) { color:var(--ink); }
+[data-theme="dark"] :is(.auth-intro-title span,#hero-heading-accent,.eyebrow,.scene-label,.language-note .ui-icon) { color:var(--green); }
+[data-theme="dark"] :is(.brand-mark,.brand .brand-tag,.auth-card .auth-mark,.user-role,.start-badge,.hero-actions .ai-cta-mark) { color:var(--green); background:var(--green-soft); border-color:var(--border-subtle); box-shadow:none; }
+[data-theme="dark"] .runtime { color:var(--muted); background:var(--surface-soft); border-color:var(--border-subtle); }
+[data-theme="dark"] :is(.auth-description,.auth-help,.auth-intro-copy,.hero-description,.start-card > p,.start-footnote,.section-description,.stage-caption,.reading-batch-bar small,.language-note,.document-card p,.task-description,.service-action small) { color:var(--muted); }
+[data-theme="dark"] .mascot-stage .stage-halo { background:radial-gradient(circle at 28% 20%,#7dc9f533,#3971a533 55%,#203e6d66); box-shadow:inset 0 1px 0 #d2e8ff38,0 20px 60px -16px #1476b72e; }
+[data-theme="dark"] .stage-halo::after { opacity:.25; }
+[data-theme="dark"] .stage-orbit { border-color:#9fcafa35; box-shadow:none; }
+[data-theme="dark"] .residence-detail { opacity:.14; }
+[data-theme="dark"] .hero-visual { background:transparent; }
+[data-theme="dark"] .tab-lens { background:var(--green-soft); border-color:var(--border-control); box-shadow:inset 0 1px 0 #d2e8ff20; }
+[data-theme="dark"] .tabs button { color:var(--muted); }
+[data-theme="dark"] .tabs button.active { color:var(--ink); background:var(--green-soft); }
+[data-theme="dark"] :is(.tabs button:hover:not(:disabled):not(.active),.account-workspace-tabs button[aria-selected="true"]) { color:var(--ink); background:var(--surface-soft); border-color:var(--border-control); }
+[data-theme="dark"] :is(input:not([type="checkbox"]):not([type="radio"]),textarea,select) { color:var(--ink); background:var(--paper); border-color:var(--border-control); box-shadow:none; }
+[data-theme="dark"] :is(input,textarea)::placeholder { color:var(--muted); opacity:1; }
+[data-theme="dark"] input:autofill { -webkit-text-fill-color:var(--ink); box-shadow:0 0 0 1000px var(--paper) inset; }
+[data-theme="dark"] :is(input,select,textarea):disabled { color:var(--muted); opacity:1; background:var(--surface-soft); }
+[data-theme="dark"] :is(.auth-retry,.refresh-button,.logout-button,.secondary-action,.motion-toggle,.password-visibility,.login-hint-copy,.login-hint-fill,.service-action,.chat-starters button,.a2ui-actions button,.a2ui-procedure,.portal-form button[type="button"],.account-filter-toolbar button,.manager-agent-shortcuts button,.manager-agent-message button,.dialog-actions button:not(:last-child)) { color:var(--green); background:var(--button-soft); border-color:var(--button-outline); box-shadow:inset 0 1px 0 #c3e3ff14; }
+[data-theme="dark"] :is(.auth-submit:not(#reset-submit),.hero-actions .primary-action,.start-chat-button,.manager-agent-form button[type="submit"],.composer button[type="submit"],.portal-form button[type="submit"],.entry-footer button[type="submit"],.ownership-onboarding button,.portal-primary,.decision:not(.secondary):not(.warning):not(.danger),.task-entry,.a2ui-button.a2ui-primary,.browse-procedures,.procedure-retry,.procedure-empty button) { color:var(--action-ink); background:var(--action-fill); border-color:var(--action-fill); box-shadow:inset 0 1px 0 #d2e8ff26,0 6px 18px #0003; }
+[data-theme="dark"] :is(.auth-submit:not(#reset-submit),.hero-actions .primary-action,.start-chat-button,.ownership-onboarding button,.entry-footer button[type="submit"],.task-entry,.a2ui-button.a2ui-primary,.browse-procedures,.procedure-retry,.procedure-empty button):hover:not(:disabled) { color:var(--action-ink); background:var(--action-hover); }
+[data-theme="dark"] .start-chat-button :is(strong,small) { color:var(--action-ink); }
+[data-theme="dark"] :is(.login-hints,.login-hint-account,.reading-batch-bar,.personal-details,.account-receipt dl,.portal-steps li,.request-details,.ticket-timeline,.household-roster,.manager-conversation-confirm,.manager-conversation-delete-options,.manager-agent-draft,.a2ui-surface,.procedure-intro,.reading-help,.reading-intro,.account-receipt,.delivery-options) { color:var(--ink); background:var(--surface-soft); border-color:var(--border-subtle); }
+[data-theme="dark"] .login-hints-heading > span:first-child { color:var(--ink); background:transparent; }
+[data-theme="dark"] .login-hints-local { color:var(--night-warning); background:var(--night-warning-surface); }
+[data-theme="dark"] :is(.chat-widget,.manager-agent-dialog) { color:var(--ink); background:var(--paper); border-color:var(--glass-rim); box-shadow:0 24px 80px #0008,inset 0 1px 0 #b4d6ff26; }
+[data-theme="dark"] :is(.chat-widget .messages,.manager-agent-messages,.manager-agent-shortcuts) { background:var(--paper); border-color:var(--border-subtle); }
+[data-theme="dark"] :is(.chat-widget .message.assistant > div:last-child,.manager-agent-message,.manager-agent-ticket,.manager-batch-ticket) { color:var(--ink); background:var(--surface); border-color:var(--border-subtle); }
+[data-theme="dark"] .chat-widget .message.assistant.typing-message > div:last-child { background:transparent; }
+[data-theme="dark"] .chat-widget .message.assistant > div:last-child > strong { color:var(--ink); }
+[data-theme="dark"] :is(.chat-widget .message.user > div,.manager-agent-user) { color:var(--ink); background:#24496d; border-color:#456e95; }
+[data-theme="dark"] .manager-agent-user > strong { color:#d3e8ff; }
+[data-theme="dark"] :is(.chat-widget h2,.manager-agent-header h2,.chat-launcher-copy strong,.chat-widget-logo) { color:var(--ink); }
+[data-theme="dark"] :is(.chat-widget-header p,.manager-agent-header p,.chat-launcher-copy small,.manager-agent-message > strong,.chat-toolbar label,.agent-state-label) { color:var(--muted); }
+[data-theme="dark"] .trace > span { color:var(--night-success); background:var(--night-success-surface); }
+[data-theme="dark"] .trace > span[data-outcome="info"] { color:var(--muted); background:var(--surface-soft); }
+[data-theme="dark"] :is(.trace > span[data-outcome="error"],.field-error,.username-field-error,.auth-error) { color:var(--night-danger); background:var(--night-danger-surface); }
+[data-theme="dark"] :is(.status.submitted,.status.in_review,.request-status.submitted,.request-status.in_review) { color:var(--night-warning); background:var(--night-warning-surface); }
+[data-theme="dark"] :is(.status.approved,.request-status.approved) { color:var(--night-success); background:var(--night-success-surface); }
+[data-theme="dark"] :is(.status.completed,.request-status.completed,.task.completed,.task.is-complete) { color:var(--night-complete); background:var(--night-complete-surface); }
+[data-theme="dark"] :is(.status.needs_info,.status.rejected,.status.cancelled_by_resident,.request-status.needs_info,.request-status.rejected) { color:var(--night-danger); background:var(--night-danger-surface); }
+[data-theme="dark"] :is(.request-stat,.request-stat.active,.request-stat[aria-pressed="true"],.request-pagination,.notification-pagination,.resident-request-pagination) { color:var(--ink); background:var(--surface-soft); border-color:var(--border-control); }
+[data-theme="dark"] :is(.request-stat strong,.request-card h3,.request-details dt,.notification-group h3,.account-list-item span,.reading-source) { color:var(--ink); }
+[data-theme="dark"] .request-details { background:transparent; }
+[data-theme="dark"] .request-details > div { color:var(--ink); background:var(--surface-soft); }
+[data-theme="dark"] :is(.regulation-item,.regulation-body,.reading-actions,.request-detail-section,.resident-ticket,.notification-ticket) { color:var(--ink); background:var(--surface); border-color:var(--border-subtle); }
+[data-theme="dark"] #procedure-picker .a2ui-procedure { color:var(--ink); background:var(--surface); border-color:var(--border-subtle); }
+[data-theme="dark"] :is(.regulation-meta,.regulation-item summary small,.regulation-body p) { color:var(--muted); }
+[data-theme="dark"] :is(.delivery-actions .delivery-handover,.delivery-actions [data-issue-dependent],.section-heading-actions .delivery-bulk-delete) { color:var(--green); background:var(--button-soft); border-color:var(--button-outline); box-shadow:inset 0 1px 0 #d3ebff20; }
+[data-theme="dark"] :is(.delivery-actions .delivery-delete,.login-reset,.reset-app,#reset-submit) { color:var(--night-danger); background:var(--night-danger-surface); border-color:#a45c6f; box-shadow:none; }
+[data-theme="dark"] .delivery-count { color:var(--green); background:var(--green-soft); border-color:var(--surface); }
+[data-theme="dark"] .delivery-actions .delivery-delete .delivery-count { color:var(--night-danger); background:var(--night-danger-surface); }
+[data-theme="dark"] .ticket-timeline { --timeline-ink:var(--ink); --timeline-line:#5688b6; }
+[data-theme="dark"] #resident-ticket-list .ticket-timeline { --timeline-ink:var(--ink); border-color:var(--border-subtle); }
+[data-theme="dark"] :is(.ticket-timeline-heading time,.ticket-timeline p,.ticket-timeline li span) { color:var(--muted); }
+[data-theme="dark"] :is(.source-link,.markdown-body a,.reading-card a,.document-card a,.manager-agent-message a) { color:var(--green); }
+[data-theme="dark"] dialog { color:var(--ink); background:var(--surface); border-color:var(--border-control); box-shadow:0 32px 100px #0009; }
+[data-theme="dark"] dialog::backdrop { background:#020a16b3; }
+[data-theme="dark"] dialog.first-password-dialog { color:var(--ink); background:var(--surface); }
+[data-theme="dark"] :is(.first-password-dialog small,.dialog-copy,.decision-reason-wrap) { color:var(--muted); }
+[data-theme="dark"] .auth-card .password-visibility { color:var(--green); background:var(--button-soft); }
+[data-theme="dark"] .chat-widget :is(.speak-button,.chat-widget-actions button,.chat-toolbar button,.attach-button,.voice-button) { color:var(--green); background:var(--button-soft); border-color:var(--button-outline); box-shadow:none; }
+[data-theme="dark"] .chat-widget :is(.chat-toolbar button.active,.chat-toolbar button[aria-pressed="true"]) { color:var(--ink); background:var(--green-soft); }
+[data-theme="dark"] .chat-widget :is(.composer-hint,.voice-status,.chat-hint,.voice-availability,.speech-status,.attachments-help) { color:var(--muted); background:transparent; }
+[data-theme="dark"] :focus-visible { outline-color:var(--focus); }
+[data-theme="dark"] :is(.ownership-onboarding,.regulation-card,.notification-list .notification-item) { color:var(--ink); background:var(--surface); border-color:var(--border-subtle); box-shadow:0 12px 32px -22px #0009; }
+[data-theme="dark"] #account-list .account-list-item { color:var(--ink); background:var(--surface); border-color:var(--border-subtle); }
+[data-theme="dark"] :is(.a2ui-card,.apartment-suggestions,.apartment-option,.manager-agent-group,.manager-batch-checks,.recovery-bubble) { color:var(--ink); background:var(--surface-soft); border-color:var(--border-subtle); }
+[data-theme="dark"] :is(.task strong,.a2ui-title,.service-action strong,.ownership-onboarding h2) { color:var(--ink); }
+[data-theme="dark"] :is(.notification-read-status,.reading-batch-bar small,.account-list-item small,.ownership-onboarding p) { color:var(--muted); }
+[data-theme="dark"] :is(.ticket-timeline-count,.notification-count,.tabs button span,.start-card .start-chat-arrow,.start-steps > div > span) { color:var(--green); background:var(--green-soft); border-color:var(--border-subtle); }
+[data-theme="dark"] .picker-filters button[aria-pressed="true"] { color:var(--ink); background:var(--green-soft); border-color:var(--button-outline); }
+[data-theme="dark"] #tab-agent.active { color:var(--ink); background:var(--green-soft); box-shadow:inset 0 0 0 1px var(--border-control); }
+[data-theme="dark"] :is(.account-list-item button,.recovery-options button,.recovery-actions button,.recovery-heading button,.suggestion-chips button,.apartment-option:hover,.apartment-option[aria-selected="true"]) { color:var(--green); background:var(--button-soft); border-color:var(--button-outline); box-shadow:none; }
+[data-theme="dark"] :is(.suggestion-chips button[aria-pressed="true"],.recovery-options button[aria-pressed="true"]) { color:var(--ink); background:var(--green-soft); border-color:var(--focus); }
+[data-theme="dark"] .suggestion-chips button:hover:not(:disabled) { color:var(--ink); background:var(--button-soft-hover); }
+[data-theme="dark"] .resident-entry-dialog .suggestion-chips button:not([aria-pressed="true"]) { color:var(--green); background:var(--button-soft); }
+[data-theme="dark"] #resident-entry-dialog[data-form-type="ownership"] .entry-fields input[readonly] { color:var(--ink); background:var(--surface-soft); }
+[data-theme="dark"] .account-receipt #copy-account-handover { color:var(--action-ink); background:var(--action-fill); border-color:var(--action-fill); }
+[data-theme="dark"] #management-notice { color:var(--night-success); background:var(--night-success-surface); border-color:var(--border-control); box-shadow:none; }
+[data-theme="dark"] :is(.entry-success,.recovery-bubble.user) { color:var(--night-success); background:var(--night-success-surface); border-color:var(--border-control); }
+[data-theme="dark"] :is(.entry-notice,.decision.warning) { color:var(--night-warning); background:var(--night-warning-surface); border-color:var(--night-warning); box-shadow:none; }
+[data-theme="dark"] :is(.ownership-warning,.ownership-warning strong,.ownership-toast,.ownership-toast button,.decision.danger) { color:var(--night-danger); background:var(--night-danger-surface); border-color:var(--night-danger); box-shadow:none; }
+[data-theme="dark"] :is(.status.cancelled_by_resident,.status-cancelled_by_resident) { color:var(--muted); background:var(--surface-soft); }
+[data-theme="dark"] .skip-link { color:var(--ink); background:var(--surface); border-color:var(--border-control); }
+[data-theme="dark"] .chat-widget :is(.attach-button,.mic-button) { color:var(--green) !important; background:var(--button-soft) !important; border-color:var(--button-outline) !important; }
+[data-theme="dark"] .chat-widget .mic-button:disabled { color:var(--muted) !important; background:var(--surface-soft) !important; }
+[data-theme="dark"] .chat-widget .mic-button.listening { color:var(--night-danger) !important; background:var(--night-danger-surface) !important; border-color:var(--night-danger) !important; }
+[data-theme="dark"] :is(.empty-state,.procedure-empty,.progress-bar) { color:var(--muted); background:var(--surface-soft); border-color:var(--border-subtle); box-shadow:none; }
+[data-theme="dark"] :is(.badge,.task-marker,.empty-state > span) { color:var(--green); background:var(--green-soft); }
+[data-theme="dark"] :is(.task-help,.task-regulations) { color:var(--green); background:var(--button-soft); border-color:var(--button-outline); }
+[data-theme="dark"] :is(.regulation-meta span,.regulation-meta small) { color:var(--muted); background:var(--surface-soft); }
+[data-theme="dark"] .regulation-meta .regulation-read-status { color:var(--green); background:var(--green-soft); }
+[data-theme="dark"] .chat-widget :is(.auto-tts-toggle,.auto-tts-toggle.enabled) { color:var(--green); background:var(--button-soft); border-color:var(--button-outline); }
+[data-theme="dark"] .chat-widget .attachment-help { color:var(--muted); }
+
+@media (max-width:760px) {
+  .appearance-toggle { width:44px; padding:10px; }
+  .appearance-toggle > span { display:none; }
+  body > header { display:flex; flex-wrap:wrap; }
+  body > header > .brand { margin-right:auto; }
+  body > header > .header-actions:not([hidden]) { order:2; flex:1 1 100%; justify-content:flex-end; padding-top:6px; }
+}
+@media (prefers-reduced-transparency:reduce), (prefers-contrast:more) {
+  [data-theme="dark"] :is(body > header,.tabs,.chat-widget-header,.manager-agent-header,.chat-toolbar,.composer,.manager-agent-form,.stage-chip,.chat-launcher) { background:var(--surface); -webkit-backdrop-filter:none; backdrop-filter:none; }
+}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))) {
+  [data-theme="dark"] :is(body > header,.tabs,.chat-widget-header,.manager-agent-header,.chat-launcher) { background:var(--surface); }
+}
+@media (forced-colors:active) {
+  :root[data-theme="dark"] { --paper:Canvas; --surface:Canvas; --surface-soft:Canvas; --ink:CanvasText; --muted:CanvasText; --green:LinkText; --focus:Highlight; --border-subtle:CanvasText; --border-control:CanvasText; --button-soft:ButtonFace; --button-outline:ButtonText; --action-fill:ButtonFace; --action-hover:ButtonFace; --action-ink:ButtonText; }
+  [data-theme="dark"] :is(.auth-submit,.chat-launcher,.stage-chip,.request-card,.task,.tabs,.panel,body > header) { color:CanvasText; background:Canvas; box-shadow:none; }
+}

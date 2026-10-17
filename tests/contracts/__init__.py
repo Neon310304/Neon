@@ -1,0 +1,1 @@
+"""Backend-independent persistence contracts."""

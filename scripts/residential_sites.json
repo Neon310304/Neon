@@ -1,0 +1,56 @@
+[
+  {
+    "id": "vinhomes-ocean-park",
+    "name": "Vinhomes Ocean Park",
+    "source_url": "https://oceanpark.vinhomes.vn/",
+    "source_checked_on": "2026-10-09"
+  },
+  {
+    "id": "vinhomes-smart-city",
+    "name": "Vinhomes Smart City",
+    "source_url": "https://smartcity.vinhomes.vn/",
+    "source_checked_on": "2026-10-09"
+  },
+  {
+    "id": "vinhomes-grand-park",
+    "name": "Vinhomes Grand Park",
+    "source_url": "https://vinhomes.vn/vi/vinhomes-grand-park",
+    "source_checked_on": "2026-10-09"
+  },
+  {
+    "id": "vinhomes-central-park",
+    "name": "Vinhomes Central Park",
+    "source_url": "https://market.vinhomes.vn/blog/cac-du-an-cua-vinhomes",
+    "source_checked_on": "2026-10-14"
+  },
+  {
+    "id": "vinhomes-riverside",
+    "name": "Vinhomes Riverside",
+    "source_url": "https://market.vinhomes.vn/en/blog/vinhomes-riverside",
+    "source_checked_on": "2026-10-14"
+  },
+  {
+    "id": "vinhomes-times-city",
+    "name": "Vinhomes Times City",
+    "source_url": "https://market.vinhomes.vn/blog/vinhomes-times-city",
+    "source_checked_on": "2026-10-14"
+  },
+  {
+    "id": "vinhomes-royal-city",
+    "name": "Vinhomes Royal City",
+    "source_url": "https://market.vinhomes.vn/en/blog/vinhomes-royal-city",
+    "source_checked_on": "2026-10-14"
+  },
+  {
+    "id": "masteri-thao-dien",
+    "name": "Masteri Thảo Điền",
+    "source_url": "https://masterisehomes.com/masteri-thao-dien",
+    "source_checked_on": "2026-10-14"
+  },
+  {
+    "id": "masteri-an-phu",
+    "name": "Masteri An Phú",
+    "source_url": "https://masterisehomes.com/masteri-an-phu",
+    "source_checked_on": "2026-10-14"
+  }
+]

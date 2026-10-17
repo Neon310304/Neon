@@ -1,0 +1,181 @@
+{
+  "fixture_id": "moveinmate-sunrise-demo",
+  "fixture_version": "1.0.0",
+  "data_classification": "synthetic_demo_only",
+  "contains_personal_data": false,
+  "disclaimer": "Dữ liệu và quy trình giả lập để kiểm thử kỹ thuật; chưa được BQL phê duyệt và không dùng cho hồ sơ thật.",
+  "site": {
+    "site_id": "site_demo_sunrise",
+    "site_code": "SUNRISE-DEMO",
+    "display_name": "Khu Mặt Trời (giả lập)",
+    "is_demo": true
+  },
+  "ruleset": {
+    "ruleset_id": "onboarding-demo-rules",
+    "version": "1.0.0",
+    "status": "demo_pending_bql_review",
+    "schema_version": "1.0",
+    "procedures": [
+      {
+        "procedure_code": "residency_confirmation",
+        "title": "Xác nhận hồ sơ cư trú",
+        "required": true,
+        "applies_when": {"always": true},
+        "reason_code": "all_new_residents",
+        "dependencies": [],
+        "completion_mode": "manager_confirmation"
+      },
+      {
+        "procedure_code": "resident_card",
+        "title": "Đăng ký thẻ cư dân",
+        "required": true,
+        "applies_when": {"always": true},
+        "reason_code": "all_new_residents",
+        "dependencies": ["residency_confirmation"],
+        "completion_mode": "manager_confirmation"
+      },
+      {
+        "procedure_code": "house_rules",
+        "title": "Đọc và xác nhận nội quy",
+        "required": true,
+        "applies_when": {"always": true},
+        "reason_code": "all_new_residents",
+        "dependencies": [],
+        "completion_mode": "resident_acknowledgement"
+      },
+      {
+        "procedure_code": "vehicle_registration",
+        "title": "Đăng ký phương tiện",
+        "required": true,
+        "applies_when": {"vehicle_in": ["motorbike", "car"]},
+        "reason_code": "profile_has_vehicle",
+        "dependencies": ["residency_confirmation"],
+        "completion_mode": "external_evidence"
+      },
+      {
+        "procedure_code": "internet_registration",
+        "title": "Đăng ký internet",
+        "required": false,
+        "applies_when": {"internet_needed": true},
+        "reason_code": "profile_requests_internet",
+        "dependencies": ["residency_confirmation"],
+        "completion_mode": "external_evidence"
+      }
+    ]
+  },
+  "resident_card_schema": {
+    "schema_id": "resident-card-demo-schema",
+    "version": "1.0.0",
+    "site_id": "site_demo_sunrise",
+    "status": "demo_pending_bql_review",
+    "required_fields": ["resident_type", "member_count", "residence_ref"],
+    "required_documents_by_resident_type": {
+      "owner": ["identity_document_demo", "residence_proof_demo"],
+      "tenant": ["identity_document_demo", "tenancy_proof_demo"],
+      "member": ["identity_document_demo", "membership_proof_demo"]
+    }
+  },
+  "sources": [
+    {
+      "source_id": "source-residency-demo-v1",
+      "version": "1.0.0",
+      "site_id": "site_demo_sunrise",
+      "procedure_code": "residency_confirmation",
+      "owner": "BQL giả lập - bộ phận cư dân",
+      "status": "published_demo",
+      "effective_from": "2026-01-01",
+      "effective_to": "2027-12-31",
+      "title": "Quy trình xác nhận cư trú (giả lập)",
+      "chunks": [{"chunk_id": "residency-section-1", "section": "Hồ sơ", "content": "Bộ dữ liệu demo yêu cầu xác nhận tư cách cư trú và căn hộ."}]
+    },
+    {
+      "source_id": "source-card-demo-v1",
+      "version": "1.0.0",
+      "site_id": "site_demo_sunrise",
+      "procedure_code": "resident_card",
+      "owner": "BQL giả lập - bộ phận thẻ",
+      "status": "published_demo",
+      "effective_from": "2026-01-01",
+      "effective_to": "2027-12-31",
+      "title": "Hướng dẫn thẻ cư dân (giả lập)",
+      "chunks": [{"chunk_id": "card-section-1", "section": "Thông tin và giấy tờ", "content": "Yêu cầu demo thay đổi theo tư cách cư trú và phải được cư dân xác nhận trước khi gửi."}]
+    },
+    {
+      "source_id": "source-rules-demo-v1",
+      "version": "1.0.0",
+      "site_id": "site_demo_sunrise",
+      "procedure_code": "house_rules",
+      "owner": "BQL giả lập - vận hành",
+      "status": "published_demo",
+      "effective_from": "2026-01-01",
+      "effective_to": "2027-12-31",
+      "title": "Nội quy cư dân (giả lập)",
+      "chunks": [{"chunk_id": "rules-section-1", "section": "Xác nhận", "content": "Cư dân demo đọc và xác nhận đã xem nội quy."}]
+    },
+    {
+      "source_id": "source-vehicle-demo-v1",
+      "version": "1.0.0",
+      "site_id": "site_demo_sunrise",
+      "procedure_code": "vehicle_registration",
+      "owner": "BQL giả lập - phương tiện",
+      "status": "published_demo",
+      "effective_from": "2026-01-01",
+      "effective_to": "2027-12-31",
+      "title": "Hướng dẫn phương tiện (giả lập)",
+      "chunks": [{"chunk_id": "vehicle-section-1", "section": "Điều kiện áp dụng", "content": "Mục phương tiện chỉ áp dụng cho hồ sơ demo khai có xe."}]
+    },
+    {
+      "source_id": "source-internet-demo-v1",
+      "version": "1.0.0",
+      "site_id": "site_demo_sunrise",
+      "procedure_code": "internet_registration",
+      "owner": "BQL giả lập - tiện ích",
+      "status": "published_demo",
+      "effective_from": "2026-01-01",
+      "effective_to": "2027-12-31",
+      "title": "Hướng dẫn internet (giả lập)",
+      "chunks": [{"chunk_id": "internet-section-1", "section": "Điều kiện áp dụng", "content": "Mục internet là tùy chọn cho hồ sơ demo có nhu cầu."}]
+    }
+  ],
+  "profiles": [
+    {
+      "profile_id": "profile-owner-car",
+      "site_id": "site_demo_sunrise",
+      "residence_ref": "unit-demo-a",
+      "resident_type": "owner",
+      "member_count": 2,
+      "vehicle": "car",
+      "internet_needed": true
+    },
+    {
+      "profile_id": "profile-owner-no-vehicle",
+      "site_id": "site_demo_sunrise",
+      "residence_ref": "unit-demo-b",
+      "resident_type": "owner",
+      "member_count": 2,
+      "vehicle": "none",
+      "internet_needed": true
+    }
+  ],
+  "expected_checklists": {
+    "profile-owner-car": {
+      "procedure_codes": ["residency_confirmation", "resident_card", "house_rules", "vehicle_registration", "internet_registration"],
+      "reason_codes": {
+        "residency_confirmation": "all_new_residents",
+        "resident_card": "all_new_residents",
+        "house_rules": "all_new_residents",
+        "vehicle_registration": "profile_has_vehicle",
+        "internet_registration": "profile_requests_internet"
+      }
+    },
+    "profile-owner-no-vehicle": {
+      "procedure_codes": ["residency_confirmation", "resident_card", "house_rules", "internet_registration"],
+      "reason_codes": {
+        "residency_confirmation": "all_new_residents",
+        "resident_card": "all_new_residents",
+        "house_rules": "all_new_residents",
+        "internet_registration": "profile_requests_internet"
+      }
+    }
+  }
+}

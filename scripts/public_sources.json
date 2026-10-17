@@ -1,0 +1,86 @@
+[
+  {
+    "source_id": "VN-HOUSING-132-2025",
+    "document_number": "132/VBHN-VPQH",
+    "category": "housing",
+    "source_url": "https://congbao.chinhphu.vn/van-ban/van-ban-hop-nhat-so-132-vbhn-vpqh-46136/58831.htm"
+  },
+  {
+    "source_id": "VN-RESIDENCE-06-2026",
+    "document_number": "06/VBHN-VPQH",
+    "category": "residency",
+    "source_url": "https://congbao.chinhphu.vn/van-ban/van-ban-hop-nhat-so-06-vbhn-vpqh-468935/62701.htm"
+  },
+  {
+    "source_id": "VN-FIRE-58-2026",
+    "document_number": "58/VBHN-VPQH",
+    "category": "fire_safety",
+    "source_url": "https://congbao.chinhphu.vn/van-ban/van-ban-hop-nhat-so-58-vbhn-vpqh-469188/63718.htm"
+  },
+  {
+    "source_id": "VN-HOUSING-21-2026",
+    "document_number": "21/VBHN-BXD",
+    "category": "housing",
+    "source_url": "https://congbao.chinhphu.vn/van-ban/van-ban-hop-nhat-so-21-vbhn-bxd-469298.htm"
+  },
+  {
+    "source_id": "VN-HOUSING-17-2026",
+    "document_number": "17/VBHN-BXD",
+    "category": "housing",
+    "source_url": "https://congbao.chinhphu.vn/van-ban/van-ban-hop-nhat-so-17-vbhn-bxd-469222.htm"
+  },
+  {
+    "source_id": "VN-APARTMENT-95-2026",
+    "document_number": "95/2026/VBHN-TT-BXD",
+    "category": "housing",
+    "source_url": "https://congbao.chinhphu.vn/van-ban/van-ban-hop-nhat-so-95-2026-vbhn-tt-bxd-470636/69040.htm"
+  },
+  {
+    "source_id": "VN-RESIDENCE-154-2024",
+    "document_number": "154/2024/NĐ-CP",
+    "category": "residency",
+    "source_url": "https://congbao.chinhphu.vn/van-ban/nghi-dinh-so-154-2024-nd-cp-43275/52924.htm"
+  },
+  {
+    "source_id": "VN-FIRE-105-2025",
+    "document_number": "105/2025/NĐ-CP",
+    "category": "fire_safety",
+    "source_url": "https://congbao.chinhphu.vn/van-ban/nghi-dinh-so-105-2025-nd-cp-44912.htm"
+  },
+  {
+    "source_id": "VN-FIRE-36-2025",
+    "document_number": "36/2025/TT-BCA",
+    "category": "fire_safety",
+    "source_url": "https://congbao.chinhphu.vn/van-ban/thong-tu-so-36-2025-tt-bca-44981/56506.htm"
+  },
+  {
+    "source_id": "VN-FIRE-AMENDMENT-347-2026",
+    "document_number": "347/2026/NĐ-CP",
+    "category": "fire_safety",
+    "source_url": "https://congbao.chinhphu.vn/van-ban/nghi-dinh-so-347-2026-nd-cp-470418.htm"
+  },
+  {
+    "source_id": "VN-IDENTITY-09-2026",
+    "document_number": "09/VBHN-VPQH",
+    "category": "residency",
+    "source_url": "https://congbao.chinhphu.vn/van-ban/van-ban-hop-nhat-so-09-vbhn-vpqh-468953.htm"
+  },
+  {
+    "source_id": "VN-IDENTITY-AMENDMENT-118-2026",
+    "document_number": "118/2026/TT-BCA",
+    "category": "residency",
+    "source_url": "https://congbao.chinhphu.vn/van-ban/thong-tu-so-118-2026-tt-bca-470080.htm"
+  },
+  {
+    "source_id": "VN-ENVIRONMENT-98-2026",
+    "document_number": "98/VBHN-VPQH",
+    "category": "waste_disposal",
+    "source_url": "https://congbao.chinhphu.vn/van-ban/van-ban-hop-nhat-so-98-vbhn-vpqh-469382/64356.htm"
+  },
+  {
+    "source_id": "VN-CONSUMER-47-2026",
+    "document_number": "47/VBHN-VPQH",
+    "category": "common_area",
+    "source_url": "https://congbao.chinhphu.vn/van-ban/van-ban-hop-nhat-so-47-vbhn-vpqh-469132.htm"
+  }
+]

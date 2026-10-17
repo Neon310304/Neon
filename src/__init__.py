@@ -1,0 +1,1 @@
+"""MoveInMate AI application."""

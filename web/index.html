@@ -1,0 +1,509 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MoveinmateAI-P047</title>
+    <meta name="description" content="MoveInMate AI — đồng hành cùng cư dân mới trong từng bước chuyển vào." />
+    <meta name="theme-color" content="#edf6ff" />
+    <script src="/static/appearance.js?v=20261015-night-v1"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="MoveinmateAI-P047" />
+    <meta property="og:description" content="Một nơi cho mọi bước chuyển vào." />
+    <meta property="og:url" content="https://c4.app.t047.moveinmateai.13-238-220-7.sslip.io/" />
+    <link rel="canonical" href="https://c4.app.t047.moveinmateai.13-238-220-7.sslip.io/" />
+    <link rel="icon" type="image/png" sizes="64x64" href="/static/favicon.png?v=20261014-tab-icon-v3" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png?v=20261014-tab-icon-v3" />
+    <link rel="stylesheet" href="/static/styles.css?v=20261017-chat-documents-v5" />
+    <link rel="stylesheet" href="/static/theme.css?v=20261014-household-cleanup-v1" />
+    <link rel="stylesheet" href="/static/portal.css?v=20261017-internet-ticket-notice-v1" />
+    <link rel="stylesheet" href="/static/liquid-glass.css?v=20261016-qa-responsive-v1" />
+    <link rel="stylesheet" href="/static/manager-assistant.css?v=20261015-tool-agent-v1" />
+    <link rel="stylesheet" href="/static/account-recovery.css?v=20261016-checklist-v1" />
+    <link rel="stylesheet" href="/static/ambient-living.css?v=20261016-checklist-v1" />
+    <link rel="stylesheet" href="/static/appearance.css?v=20261017-chat-feedback-v2" />
+  </head>
+  <body>
+    <div class="ambient-scene" aria-hidden="true"><i class="aurora aurora-one"></i><i class="aurora aurora-two"></i><i class="aurora aurora-three"></i><i class="aurora aurora-four"></i><div class="ambient-contour"></div><div class="ambient-grid"></div><div class="ambient-ribbon ribbon-one"></div><div class="ambient-ribbon ribbon-two"></div><div class="ambient-lights"><i></i><i></i><i></i><i></i><i></i></div></div>
+    <svg width="0" height="0" aria-hidden="true" style="position:absolute;pointer-events:none"><defs><filter id="liquid-refraction" x="-10%" y="-10%" width="120%" height="120%" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency=".012 .025" numOctaves="1" seed="7" result="lens"/><feDisplacementMap in="SourceGraphic" in2="lens" scale="7" xChannelSelector="R" yChannelSelector="G"/></filter></defs></svg>
+    <a class="skip-link" href="#main-content">Đi đến nội dung chính</a>
+    <header>
+      <a class="brand" href="#agent" aria-label="MoveInMate - về trang chính"><svg class="brand-mark" viewBox="0 0 24 24" aria-hidden="true"><path d="m4 10 8-6 8 6v10h-6v-6h-4v6H4Z"/><path d="m17 4 3 2v4"/></svg><span class="brand-name">MoveInMate</span><span class="brand-tag">AI</span></a>
+      <div id="header-actions" class="header-actions" hidden>
+        <button id="management-notice" class="management-notice" type="button" hidden></button>
+        <div class="runtime"><i></i><span id="health">Đang kiểm tra trợ lý</span></div>
+        <button id="user-role" class="user-role personal-trigger" type="button" aria-haspopup="dialog">Thông tin cá nhân</button>
+        <label id="demo-role-wrap" class="demo-role-wrap" hidden><span>Giả lập demo</span><select id="demo-role" aria-label="Vai trò giả lập, chỉ dùng demo"><option value="resident">Cư dân</option><option value="manager">Ban quản lý</option></select></label>
+      </div>
+        <button id="agent-motion-toggle" class="motion-toggle" type="button" aria-label="Tắt hiệu ứng" aria-pressed="false" title="Tắt hiệu ứng"><svg class="ui-icon motion-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14M16 5v14" /></svg><svg class="ui-icon motion-play" viewBox="0 0 24 24" aria-hidden="true"><path d="m8 5 11 7-11 7Z" /></svg><span class="motion-label">Tắt hiệu ứng</span></button>
+      <button id="appearance-toggle" class="appearance-toggle" type="button" aria-label="Chuyển sang giao diện sáng" aria-pressed="true"><svg class="ui-icon appearance-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg><svg class="ui-icon appearance-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.9 13A9 9 0 0 1 11 3.1 9 9 0 1 0 20.9 13Z"/></svg><span>Chế độ tối</span></button>
+      <button id="logout-button" class="logout-button" type="button" hidden>Đăng xuất</button>
+    </header>
+
+    <section id="auth-screen" class="auth-screen" aria-labelledby="auth-title">
+      <div class="auth-intro">
+        <p class="eyebrow">KHÔNG GIAN MỚI. KHỞI ĐẦU MỚI.</p>
+        <p class="auth-intro-title">An tâm bắt đầu<br /><span>cuộc sống mới.</span></p>
+        <p class="auth-intro-copy">Từ hồ sơ cư dân đến những việc cần làm khi chuyển vào. Mọi bước đều ở một nơi, để bạn dễ bắt đầu và tiện theo dõi.</p>
+        <div class="mascot-stage auth-mascot-stage"><img class="auth-illustration residence-detail" src="/static/residence-scene.svg" width="520" height="340" alt="" aria-hidden="true" /><div class="stage-halo" aria-hidden="true"></div><div class="stage-orbit" aria-hidden="true"></div>
+          <span class="stage-agent" data-agent-mascot="auth" aria-hidden="true"><img src="/static/agent-mascot.svg?v=20261010-portal-v4" width="300" height="300" alt="" /></span>
+          <span class="stage-caption" aria-hidden="true"><i></i>MOVEINMATE AI</span>
+          <span class="stage-chip chip-one" aria-hidden="true"><svg class="ui-icon"><use href="/static/icons.svg#home" /></svg>Hồ sơ cư dân</span>
+          <span class="stage-chip chip-two" aria-hidden="true"><svg class="ui-icon"><use href="/static/icons.svg#sparkles" /></svg>Trợ lý đồng hành</span>
+          <span class="stage-chip chip-three" aria-hidden="true"><svg class="ui-icon"><use href="/static/icons.svg#check-circle" /></svg>Từng bước rõ ràng</span></div>
+        <div class="auth-flow"><svg class="ui-icon" aria-hidden="true"><use href="/static/icons.svg#check-circle" /></svg><p><strong>Bạn kiểm tra. Bạn xác nhận.</strong><span>Ban quản lý xem xét những hồ sơ cần phê duyệt.</span></p></div>
+      </div>
+      <div class="auth-card">
+        <span class="auth-mark" aria-hidden="true"><svg class="ui-icon"><use href="/static/icons.svg#key" /></svg></span>
+        <p class="eyebrow">CHÀO MỪNG BẠN TRỞ LẠI</p>
+        <h1 id="auth-title">Đăng nhập</h1>
+        <p class="auth-description">Sử dụng tài khoản được cấp để theo dõi hồ sơ cư dân hoặc xử lý yêu cầu trong khu của bạn.</p>
+        <p id="auth-loading" class="auth-loading" role="status">Đang kiểm tra phiên đăng nhập…</p>
+        <p id="auth-error" class="auth-error" role="alert" hidden></p>
+        <form id="login-form" class="login-form" hidden>
+          <label for="login-username">Tên đăng nhập<input id="login-username" name="username" type="text" autocomplete="username" maxlength="80" placeholder="Tên tài khoản được cấp" required /></label>
+          <div class="password-field"><label for="login-password">Mật khẩu</label><div class="password-input-control"><input id="login-password" name="password" type="password" autocomplete="current-password" required /><button type="button" class="password-visibility" data-password-visibility aria-controls="login-password" aria-pressed="false" aria-label="Hiện mật khẩu"><svg class="ui-icon password-eye" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/><path class="password-eye-slash" d="m3 3 18 18"/></svg></button></div></div>
+          <button id="login-submit" class="auth-submit" type="submit">Đăng nhập</button>
+        </form>
+        <p id="login-reset-notice" class="login-reset-notice" role="status" hidden></p>
+        <button id="auth-retry" class="auth-retry" type="button" hidden>Thử kết nối lại</button>
+        <button id="open-password-recovery" class="auth-retry recovery-trigger" type="button" aria-haspopup="dialog">Quên mật khẩu? Đặt lại mật khẩu</button>
+        <p class="auth-help">Gửi yêu cầu để Ban quản lý đối chiếu hồ sơ và cấp lại mật khẩu.</p>
+        <section id="login-hints" class="login-hints" aria-labelledby="login-hints-title" hidden>
+          <details class="login-hints-disclosure">
+            <summary><h2 id="login-hints-title" class="login-hints-heading"><span>Tài khoản cấu hình sẵn</span><span class="login-hints-local">Chỉ chạy local</span><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg></h2></summary>
+            <p class="login-hints-description">Sao chép từng mục hoặc bấm “Điền nhanh” để nhập vào form. Mật khẩu đã đổi không hiển thị tại đây.</p>
+            <div id="login-hint-accounts" class="login-hint-accounts" role="region" aria-labelledby="login-hints-title" tabindex="0"></div>
+          </details>
+          <p id="login-hints-status" class="login-hints-status" role="status" aria-live="polite"></p>
+        </section>
+      </div>
+    </section>
+
+    <main id="main-content" hidden>
+      <section id="ownership-onboarding" class="ownership-onboarding" aria-labelledby="ownership-onboarding-title" hidden><div><p class="eyebrow">BƯỚC ĐẦU TIÊN · BẮT BUỘC</p><h2 id="ownership-onboarding-title">Xác nhận thông tin cư trú</h2><p>Kiểm tra thông tin BQL đã cấp trước khi sử dụng các thủ tục khác. Thông tin sẽ được khóa sau khi xác nhận.</p></div><button type="button" data-form="verify_residency">Kiểm tra và xác nhận</button></section>
+      <section class="hero">
+        <div class="hero-copy">
+        <p id="hero-eyebrow" class="eyebrow">CÙNG BẠN TỪ NGÀY ĐẦU TIÊN</p>
+        <h1><span id="hero-heading-lead">Chuyển vào căn hộ,</span><span id="hero-heading-accent">từng bước một.</span></h1>
+        <p id="hero-description" class="hero-description">Hồ sơ, thủ tục và những việc cần làm — gọn trong một nơi. Chọn việc bạn cần hoặc trò chuyện để được hướng dẫn.</p>
+        <div class="hero-actions">
+          <button id="open-chat-hero" class="primary-action" type="button">
+            <span class="ai-cta-mark" aria-hidden="true"><svg class="ui-icon"><use href="/static/icons.svg#sparkles" /></svg></span>
+            <span class="ai-cta-label">Chọn thủ tục</span>
+            <span class="ai-cta-arrow" aria-hidden="true">→</span>
+          </button>
+          <button id="hero-secondary-action" class="secondary-action tab-shortcut" type="button" data-tab-target="progress"><span id="hero-secondary-label">Xem việc cần làm</span><span id="hero-secondary-demo" class="demo-badge" hidden></span></button>
+        </div>
+        <small class="language-note"><svg class="ui-icon" aria-hidden="true"><use href="/static/icons.svg#check-circle" /></svg> Bạn luôn xem lại thông tin trước khi gửi.</small>
+        </div>
+        <figure class="hero-visual mascot-stage"><div class="stage-halo" aria-hidden="true"></div><div class="stage-orbit" aria-hidden="true"></div>
+          <span class="stage-agent" data-agent-mascot="hero" aria-hidden="true"><img src="/static/agent-mascot.svg?v=20261010-portal-v4" width="300" height="300" alt="" /></span>
+          <span class="stage-caption" aria-hidden="true"><i></i>MOVEINMATE AI</span>
+          <span class="stage-chip chip-one" aria-hidden="true"><svg class="ui-icon"><use href="/static/icons.svg#home" /></svg>Hồ sơ cư dân</span>
+          <span class="stage-chip chip-two" aria-hidden="true"><svg class="ui-icon"><use href="/static/icons.svg#sparkles" /></svg>Trợ lý đồng hành</span>
+          <span class="stage-chip chip-three" aria-hidden="true"><svg class="ui-icon"><use href="/static/icons.svg#check-circle" /></svg>Từng bước rõ ràng</span><img class="residence-detail" src="/static/residence-scene.svg" width="520" height="340" alt="" aria-hidden="true" /><figcaption><span class="scene-label">MOVEINMATE</span><span>Một nơi cho mọi bước chuyển vào.</span></figcaption></figure>
+      </section>
+
+      <nav class="tabs" role="tablist" aria-label="Khu vực sử dụng">
+        <span class="tab-lens" aria-hidden="true"></span>
+        <button id="tab-management" role="tab" aria-selected="false" aria-controls="management" data-tab="management" hidden>Ban quản lý</button>
+        <button id="tab-resident-accounts" role="tab" aria-selected="false" aria-controls="resident-accounts" data-tab="resident-accounts" hidden>Đăng ký cư dân</button>
+        <button id="tab-agent" class="active" role="tab" aria-selected="true" aria-controls="agent" data-tab="agent"><svg class="ui-icon" aria-hidden="true"><use href="/static/icons.svg#sparkles" /></svg>Chọn thủ tục</button>
+        <button id="tab-progress" role="tab" aria-selected="false" aria-controls="progress" data-tab="progress"><svg class="ui-icon" aria-hidden="true"><use href="/static/icons.svg#checklist" /></svg>Việc cần làm</button>
+        <button id="tab-tickets" role="tab" aria-selected="false" aria-controls="tickets" data-tab="tickets"><svg class="ui-icon" aria-hidden="true"><use href="/static/icons.svg#inbox" /></svg>Ticket đã gửi</button>
+        <button id="tab-notifications" role="tab" aria-selected="false" aria-controls="notifications" data-tab="notifications"><svg class="ui-icon" aria-hidden="true"><use href="/static/icons.svg#inbox" /></svg>Thông báo BQL <span id="notification-tab-count" class="notification-count" hidden></span></button>
+        <button id="tab-household" role="tab" aria-selected="false" aria-controls="household" data-tab="household"><svg class="ui-icon" aria-hidden="true"><use href="/static/icons.svg#home" /></svg>Quản lý căn hộ</button>
+        <button id="tab-regulations" role="tab" aria-selected="false" aria-controls="regulations" data-tab="regulations"><svg class="ui-icon" aria-hidden="true"><use href="/static/icons.svg#book" /></svg>Nội quy</button>
+      </nav>
+
+      <span id="notification-announcement" class="sr-only" role="status" aria-atomic="true"></span>
+      <section id="agent" class="panel tab-panel active" role="tabpanel" aria-labelledby="tab-agent">
+        <section id="procedure-picker" class="procedure-picker" aria-labelledby="procedure-picker-title">
+          <div class="picker-heading"><div><p class="eyebrow">HỒ SƠ CỦA BẠN</p><h2 id="procedure-picker-title">Thủ tục gợi ý cho bạn</h2></div></div>
+          <p class="picker-description">Chọn thủ tục để mở biểu mẫu hoặc tài liệu phù hợp. Hồ sơ chỉ được gửi khi bạn xác nhận.</p>
+          <label class="picker-search" for="procedure-search"><span>Tìm thủ tục</span><input id="procedure-search" type="search" placeholder="Ví dụ: thẻ cư dân, xe, tạm trú…" autocomplete="off" aria-controls="procedure-list" /></label>
+          <div class="picker-filters" role="group" aria-label="Lọc theo trạng thái"><button type="button" data-procedure-filter="all" aria-pressed="true">Tất cả</button><button type="button" data-procedure-filter="pending" aria-pressed="false">Chưa hoàn tất</button><button type="button" data-procedure-filter="completed" aria-pressed="false">Đã hoàn tất</button></div>
+          <p id="procedure-status" class="procedure-status" role="status" aria-atomic="true"></p>
+          <div id="procedure-list" class="procedure-list"></div>
+          <div id="procedure-empty" class="procedure-empty"><strong>Không tìm thấy thủ tục</strong><p>Thử tên ngắn hơn hoặc chọn “Tất cả”.</p><button id="procedure-clear" type="button">Xóa bộ lọc</button></div>
+          <button id="procedure-retry" class="procedure-retry" type="button">Tải lại danh sách</button>
+        </section>
+        <div class="assistant-home">
+          <section class="start-card" aria-labelledby="other-request-title">
+            <span class="start-badge"><svg class="ui-icon" aria-hidden="true"><use href="/static/icons.svg#sparkles" /></svg>TRỢ LÝ CỦA BẠN</span>
+            <h2 id="other-request-title">Có yêu cầu khác?</h2>
+            <p>Chat với agent để hỏi thêm, phản ánh hoặc chuẩn bị yêu cầu khác cho Ban quản lý.</p>
+            <button id="open-chat-main" class="start-chat-button" type="button" aria-controls="chat-widget"><span class="start-agent-avatar" data-agent-mascot="start" aria-hidden="true"><img src="/static/agent-mascot.svg?v=20261013-v1" width="48" height="48" alt="" /></span><span class="start-chat-copy"><strong>Chat agent · Yêu cầu khác</strong><small>Hỏi đáp và chuẩn bị hồ sơ</small></span><span class="start-chat-arrow" aria-hidden="true">→</span></button>
+            <div class="start-steps"><div><span>1</span><p><strong>Nói việc bạn cần</strong><small>Ví dụ: “Tôi muốn đăng ký thẻ xe”.</small></p></div><div><span>2</span><p><strong>Nhập và kiểm tra thông tin</strong><small>Bổ sung những trường còn thiếu.</small></p></div><div><span>3</span><p><strong>Xác nhận và theo dõi</strong><small>Chỉ gửi BQL sau khi bạn đồng ý.</small></p></div></div>
+            <p class="start-footnote">Hướng dẫn kèm nguồn khi có tài liệu phù hợp.</p>
+          </section>
+          <section class="services-card">
+            <div class="services-heading"><div><p class="eyebrow">CHỌN NHANH</p><h2>Các việc thường dùng</h2></div><button class="browse-procedures" type="button" data-ui-action="open_procedures">Chọn thủ tục <span aria-hidden="true">→</span></button></div>
+            <div class="quick-actions">
+              <button class="service-action" type="button" data-ui-action="open_procedures"><span aria-hidden="true"><svg class="ui-icon"><use href="/static/icons.svg#home" /></svg></span><p><strong>Mới chuyển đến</strong><small>Chọn từ việc cần làm của bạn</small></p></button>
+              <button class="service-action" type="button" data-ui-action="open_form" data-ui-form="card_replacement"><span aria-hidden="true"><svg class="ui-icon"><use href="/static/icons.svg#key" /></svg></span><p><strong>Mất hoặc cấp lại thẻ</strong><small>Nhập lý do và xác nhận gửi BQL</small></p></button>
+              <button class="service-action" type="button" data-ui-action="open_form" data-ui-form="visitor_registration"><span aria-hidden="true"><svg class="ui-icon"><use href="/static/icons.svg#users" /></svg></span><p><strong>Khách hoặc người nhà</strong><small>Điền thông tin khách và ngày đến</small></p></button>
+              <button class="service-action" type="button" data-ui-action="open_form" data-ui-form="vehicle_registration"><span aria-hidden="true"><svg class="ui-icon"><use href="/static/icons.svg#car" /></svg></span><p><strong>Ô tô hoặc xe máy</strong><small>Nhập biển số để đăng ký thẻ xe</small></p></button>
+              <button class="service-action" type="button" data-ui-action="open_form" data-ui-form="resident_card"><span aria-hidden="true"><svg class="ui-icon"><use href="/static/icons.svg#card" /></svg></span><p><strong>Thẻ cư dân mới</strong><small>Xem hồ sơ và xác nhận gửi BQL</small></p></button>
+              <button class="service-action" type="button" data-ui-action="open_form" data-ui-form="temporary_residency"><span aria-hidden="true"><svg class="ui-icon"><use href="/static/icons.svg#user-plus" /></svg></span><p><strong>Đăng ký tạm trú</strong><small>Thêm thông tin người cư trú</small></p></button>
+              <button class="service-action" type="button" data-ui-action="open_tab" data-ui-tab="progress"><span aria-hidden="true"><svg class="ui-icon"><use href="/static/icons.svg#checklist" /></svg></span><p><strong>Kiểm tra tiến độ</strong><small>Xem việc đã xong và còn thiếu</small></p></button>
+              <button class="service-action" type="button" data-ui-action="open_tab" data-ui-tab="regulations"><span aria-hidden="true"><svg class="ui-icon"><use href="/static/icons.svg#book" /></svg></span><p><strong>Nội quy cư dân</strong><small>Đọc tài liệu và nguồn gốc</small></p></button>
+              <button class="service-action" type="button" data-ui-action="open_form" data-ui-form="internet_registration"><span aria-hidden="true"><svg class="ui-icon"><use href="/static/icons.svg#wifi" /></svg></span><p><strong>Internet căn hộ</strong><small>Nhập nhu cầu lắp đặt gửi BQL</small></p></button>
+              <button class="service-action" type="button" data-ui-action="open_form" data-ui-form="general_support"><span aria-hidden="true"><svg class="ui-icon"><use href="/static/icons.svg#message" /></svg></span><p><strong>Phản ánh / yêu cầu khác</strong><small>Chọn vấn đề và gửi ticket đến BQL</small></p></button>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <section id="progress" class="panel tab-panel" role="tabpanel" aria-labelledby="tab-progress" hidden>
+        <div class="section-heading"><div><p class="eyebrow" data-resident-label>HỒ SƠ CƯ DÂN</p><h2>Việc cần làm khi chuyển vào</h2><p class="section-description">Chọn thủ tục để mở biểu mẫu hoặc tài liệu phù hợp, rồi kiểm tra trước khi xác nhận.</p></div><button id="refresh-progress" class="refresh-button" type="button"><span aria-hidden="true">↻</span> Làm mới</button></div>
+        <div class="progress-summary">
+          <div class="progress-copy-row"><p id="progress-copy">Đang tải danh sách…</p><span><i></i> Việc bắt buộc <i></i> Việc tùy chọn</span></div>
+          <div class="progress-bar" role="progressbar" aria-label="Tiến độ hoàn thành" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="progress-fill"></span></div>
+        </div>
+        <div id="task-list" class="task-list" aria-live="polite"></div>
+      </section>
+
+      <section id="notifications" class="panel tab-panel" role="tabpanel" aria-labelledby="tab-notifications" hidden>
+        <div class="section-heading"><div><p class="eyebrow">CẬP NHẬT TỪ BAN QUẢN LÝ</p><h2>Thông báo của bạn</h2><p class="section-description">Mỗi ticket một nhóm, cập nhật mới nhất ở trên. Mở lịch sử để xem các lần xử lý; thông báo đã đọc vẫn được giữ lại.</p></div><button id="notification-refresh" class="refresh-button" type="button">Làm mới</button></div>
+        <div id="notification-filters" class="ticket-filter-toolbar" role="search" aria-label="Lọc thông báo theo ticket">
+          <label>Tìm ticket<input id="notification-search" type="search" maxlength="120" placeholder="Mã ticket, biển số hoặc nội dung…" /></label>
+          <label>Loại yêu cầu<select id="notification-type-filter"><option value="all">Tất cả loại</option></select></label>
+          <label>Trạng thái<select id="notification-status-filter"><option value="all">Tất cả trạng thái</option></select></label>
+          <label>Từ ngày gửi<input id="notification-date-from" type="date" /></label>
+          <label>Đến ngày gửi<input id="notification-date-to" type="date" /></label>
+          <button id="notification-clear-filters" type="button">Xóa bộ lọc</button>
+        </div>
+        <div class="notification-toolbar"><p id="notification-summary">Đang tải thông báo…</p><button id="notification-read-all" type="button" disabled>Đã đọc tất cả</button></div>
+        <p id="notification-error" class="field-error" role="alert" hidden></p>
+        <div id="notification-list" class="notification-list"></div>
+        <nav class="ticket-pagination" aria-label="Phân trang thông báo theo ticket"><button id="notification-prev" type="button" disabled>Trang trước</button><span id="notification-page" role="status">Trang 1</span><button id="notification-next" type="button" disabled>Trang sau</button></nav>
+      </section>
+
+      <section id="regulations" class="panel tab-panel" role="tabpanel" aria-labelledby="tab-regulations" hidden>
+        <div class="section-heading"><div><p class="eyebrow">NGUỒN PHÁP LUẬT VÀ QUY ĐỊNH</p><h2>Tài liệu và nguồn tham khảo</h2><p class="section-description">Đọc văn bản công khai và kiểm tra nguồn gốc. Pháp luật chung không thay thế nội quy riêng của khu; hiệu lực và sửa đổi cần được xác minh trước khi áp dụng.</p></div><button id="refresh-regulations" class="refresh-button" type="button"><span aria-hidden="true">↻</span> Làm mới</button></div>
+        <div id="knowledge-guides" class="reading-help-host" aria-label="Hướng dẫn sử dụng ứng dụng"></div>
+        <div class="reading-library-heading"><h3>Văn bản và quy định theo nguồn</h3><p>Mở tài liệu để đọc nội dung, kiểm tra nguồn gốc và phiên bản.</p></div>
+        <div class="reading-toolbar"><label>Tìm tài liệu<input id="reading-search" type="search" placeholder="Tên tài liệu hoặc phiên bản…" /></label><label>Trạng thái<select id="reading-filter"><option value="all">Tất cả tài liệu</option><option value="unread">Chưa xác nhận</option><option value="read">Đã xác nhận</option></select></label></div>
+        <p id="reading-empty" class="portal-help" hidden>Không có tài liệu phù hợp. Thử đổi từ khóa hoặc trạng thái.</p>
+        <div id="regulations-list"></div>
+        <div class="reading-batch-bar"><div><strong>Xác nhận sau khi đọc</strong><small>Bấm xác nhận để ghi nhận đã đọc tất cả tài liệu hiện tại. Việc này không thay thế thủ tục cư trú.</small><p id="reading-confirm-status" role="status" aria-atomic="true"></p><p id="ack-error" class="field-error" role="alert" hidden></p></div><button id="reading-confirm-selected" type="button" disabled>Tôi xác nhận đã đọc nội quy</button></div>
+      </section>
+
+      <section id="tickets" class="panel tab-panel" role="tabpanel" aria-labelledby="tab-tickets" hidden>
+        <div class="section-heading"><div><p class="eyebrow" data-resident-label>HỒ SƠ CƯ DÂN</p><h2>Ticket đã gửi</h2><p class="section-description">Theo dõi việc Ban quản lý xử lý và thông tin cần bổ sung.</p></div><button id="refresh-tickets" class="refresh-button" type="button"><span aria-hidden="true">↻</span> Làm mới</button></div>
+        <div class="ticket-stage-toolbar"><div class="ticket-stage-tabs" role="tablist" aria-label="Nhóm ticket cư dân"><button id="resident-stage-active" type="button" role="tab" data-ticket-role="resident" data-ticket-stage="active" aria-selected="true" aria-controls="resident-ticket-results">Ticket đã gửi <span data-stage-count="active">0</span></button><button id="resident-stage-finished" type="button" role="tab" data-ticket-role="resident" data-ticket-stage="finished" aria-selected="false" aria-controls="resident-ticket-results" tabindex="-1">Ticket đã hoàn thành/bị huỷ <span data-stage-count="finished">0</span></button></div><div id="resident-ticket-stage-actions" class="section-heading-actions"></div></div>
+        <div id="resident-ticket-results" role="tabpanel" aria-labelledby="resident-stage-active">
+        <p class="ticket-stage-help" data-ticket-stage-help="resident">Các ticket đã gửi, đang xem xét, cần bổ sung hoặc đã duyệt nhưng chưa hoàn tất.</p>
+        <div id="resident-ticket-toolbar" class="ticket-filter-toolbar"></div>
+        <p id="resident-ticket-count" role="status"></p>
+        <div id="resident-ticket-list" class="request-list" aria-live="polite"></div>
+        <nav class="ticket-pagination" aria-label="Phân trang ticket cư dân"><button id="resident-ticket-prev" type="button" disabled>Trang trước</button><span id="resident-ticket-page" role="status">Trang 1</span><button id="resident-ticket-next" type="button" disabled>Trang sau</button></nav>
+        </div>
+      </section>
+
+      <section id="household" class="panel tab-panel" role="tabpanel" aria-labelledby="tab-household" hidden>
+        <div class="section-heading"><div><p class="eyebrow">CĂN HỘ CỦA BẠN</p><h2>Quản lý căn hộ</h2><p class="section-description">Theo dõi thông tin và phương tiện của các cư dân cùng căn hộ đã xác nhận.</p></div><button id="refresh-household" class="refresh-button" type="button"><span aria-hidden="true">↻</span> Làm mới</button></div>
+        <div id="household-summary" class="household-summary" aria-live="polite"></div>
+        <div class="household-grid">
+          <section class="household-card"><h3>Người cư trú</h3><div id="household-occupants"></div></section>
+          <section class="household-card"><div class="vehicle-section-heading"><h3>Phương tiện của căn hộ</h3><button type="button" data-ui-action="open_form" data-ui-form="vehicle_registration">Thêm phương tiện</button></div><p class="portal-help">Mỗi xe có hồ sơ và giấy đăng ký riêng. Bạn có thể đăng ký cả xe máy và ô tô.</p><div id="household-vehicles"></div></section>
+          <section class="household-card"><h3>Internet căn hộ</h3><div id="household-internet"></div></section>
+        </div>
+      </section>
+
+      <section id="resident-accounts" class="panel tab-panel" role="tabpanel" aria-labelledby="tab-resident-accounts" hidden>
+        <div class="section-heading"><div><p class="eyebrow">TIẾP NHẬN CƯ DÂN</p><h2>Đăng ký cư dân</h2><p class="section-description">Cấp tài khoản mới hoặc tìm và quản lý cư dân trong phạm vi phụ trách.</p></div><button id="refresh-accounts" class="refresh-button" type="button">Làm mới</button></div>
+        <div class="account-workspace-tabs" role="tablist" aria-label="Đăng ký và quản lý tài khoản cư dân">
+          <button id="account-create-tab" type="button" role="tab" aria-selected="true" aria-controls="account-create-panel" data-account-tab="create">Tạo tài khoản cư dân</button>
+          <button id="account-manage-tab" type="button" role="tab" aria-selected="false" aria-controls="account-manage-panel" data-account-tab="manage" tabindex="-1">Quản lý tài khoản</button>
+        </div>
+        <p id="account-load-error" class="field-error" role="alert" tabindex="-1" hidden></p>
+        <section id="account-create-panel" class="account-workspace-panel" role="tabpanel" aria-labelledby="account-create-tab">
+        <ol class="portal-steps" aria-label="Các bước cấp tài khoản"><li>01 <span>Thông tin & căn hộ</span></li><li>02 <span>Đối chiếu & xác nhận</span></li><li>03 <span>Bàn giao tài khoản</span></li></ol>
+        <div class="account-layout">
+          <form id="account-create-form" class="portal-form">
+            <fieldset id="account-fields"><legend>Thông tin cấp tài khoản</legend>
+              <label>Họ và tên cư dân<input id="account-full-name" name="full_name" minlength="2" maxlength="120" autocomplete="name" required /></label>
+              <div class="portal-field-pair"><label>Khu dân cư<select id="account-site" name="site_id" required></select></label><label>Tòa / khu vực<input id="account-building" name="building" maxlength="80" list="account-building-options" placeholder="Chọn hoặc nhập tòa đã đối chiếu" /><datalist id="account-building-options"></datalist></label></div>
+              <div class="portal-field-pair"><div class="apartment-field"><label for="account-apartment">Căn hộ<input id="account-apartment" name="apartment" maxlength="40" placeholder="Nhập mã hoặc chọn căn hộ" aria-describedby="account-location-help account-owner-error" required /></label><div id="account-apartment-suggestions" class="apartment-suggestions" hidden></div><p id="account-owner-error" class="field-error apartment-owner-error" role="alert" hidden></p></div><label>Tư cách cư trú<select id="account-resident-type" name="resident_type"><option value="owner">Chủ sở hữu</option><option value="tenant">Người thuê</option><option value="family_member">Thành viên gia đình</option></select></label></div>
+              <p id="account-location-help" class="portal-help"></p>
+              <label>Tên đăng nhập<span id="account-username-error" class="username-field-error" role="alert" hidden></span><input id="account-username" name="username" maxlength="80" pattern="[a-zA-Z0-9_.@\-]+" autocomplete="off" autocapitalize="none" spellcheck="false" aria-describedby="account-username-error" required /><small>Chữ, số hoặc dấu _ . @ -; không trùng tài khoản đang có.</small></label>
+              <div class="account-password-field"><label for="account-password">Mật khẩu bàn giao</label><div class="password-input-control"><input id="account-password" name="password" type="password" minlength="8" maxlength="256" autocomplete="new-password" required /><button id="show-account-password" type="button" class="password-visibility" aria-controls="account-password" aria-pressed="false" aria-label="Hiện mật khẩu bàn giao"><svg class="ui-icon password-eye" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/><path class="password-eye-slash" d="m3 3 18 18"/></svg></button></div></div>
+              <div class="portal-inline-actions"><button id="generate-account-password" type="button">TK/MK ngẫu nhiên</button></div>
+              <p id="account-generated-status" class="portal-help" role="status" aria-atomic="true"></p>
+            </fieldset>
+            <section id="account-review" class="entry-review" hidden><h3>Kiểm tra trước khi cấp quyền</h3><dl id="account-review-summary"></dl><label class="entry-consent"><input id="account-confirm" type="checkbox" /><span>Tôi đã đối chiếu thông tin cư dân, khu và căn hộ; đồng ý cấp tài khoản với quyền cư dân cho hồ sơ này.</span></label><p class="portal-help">Tài khoản có thể đăng nhập ngay sau khi tạo. Việc cấp tài khoản không tự hoàn tất các thủ tục thẻ, xe hoặc nội quy.</p></section>
+            <p id="account-error" class="field-error" role="alert" tabindex="-1" hidden></p>
+            <div class="entry-footer"><button id="account-back" type="button" hidden>Sửa thông tin</button><button id="account-submit" type="submit" disabled>Xem lại thông tin</button></div>
+          </form>
+          <aside class="account-side"><section id="account-receipt" class="account-receipt" hidden><p class="eyebrow">ĐÃ CẤP TÀI KHOẢN</p><h3>Sẵn sàng bàn giao</h3><p id="account-receipt-copy"></p><dl id="account-receipt-details"></dl><p class="portal-help">Chỉ chia sẻ riêng với đúng cư dân. Mật khẩu chỉ hiển thị trong lần bàn giao này.</p><button id="copy-account-handover" type="button">Sao chép thông tin bàn giao</button><button id="new-account" type="button">Tạo tài khoản tiếp theo</button><p id="account-copy-status" role="status"></p></section></aside>
+        </div>
+        </section>
+        <section id="account-manage-panel" class="account-workspace-panel" role="tabpanel" aria-labelledby="account-manage-tab" hidden>
+          <div class="account-directory-heading"><h3>Tài khoản hiện có</h3><p class="portal-help">Chỉ hiển thị cư dân thuộc khu bạn được quản lý. Tìm theo họ tên, tài khoản hoặc căn hộ.</p></div>
+          <div class="account-filter-toolbar" role="search" aria-label="Tìm và lọc tài khoản cư dân">
+            <label>Tìm cư dân<input id="account-search" type="search" maxlength="120" placeholder="Họ tên, tài khoản, căn hộ…" autocomplete="off" aria-controls="account-list" /></label>
+            <label>Khu dân cư<select id="account-filter-site" aria-controls="account-list"><option value="">Tất cả khu</option></select></label>
+            <label>Tòa / khu vực<select id="account-filter-building" aria-controls="account-list"><option value="">Tất cả tòa / khu vực</option></select></label>
+            <button id="account-clear-filters" type="button">Xóa bộ lọc</button>
+          </div>
+          <p id="account-list-count" class="portal-help" role="status" aria-atomic="true"></p>
+          <div id="account-list" role="list" aria-label="Tài khoản cư dân"></div>
+          <p id="account-list-empty" class="account-list-empty" hidden>Không tìm thấy tài khoản phù hợp. Thử từ khóa khác hoặc xóa bộ lọc.</p>
+          <nav class="ticket-pagination" aria-label="Phân trang tài khoản cư dân"><button id="account-list-prev" type="button" disabled>Trang trước</button><span id="account-list-page" role="status">Trang 1</span><button id="account-list-next" type="button" disabled>Trang sau</button></nav>
+          <div id="account-recovery-requests" class="account-recovery-requests"></div>
+        </section>
+      </section>
+
+      <section id="management" class="panel tab-panel" role="tabpanel" aria-labelledby="tab-management" hidden>
+        <div class="section-heading management-heading">
+          <div>
+            <h2>Hàng đợi xử lý</h2>
+            <p class="section-description">Theo dõi, lọc và xử lý yêu cầu của cư dân tại một nơi.</p>
+          </div>
+          <button id="refresh-requests" class="refresh-button" type="button"><span aria-hidden="true">↻</span> Làm mới</button>
+        </div>
+        <div class="ticket-stage-toolbar"><div class="ticket-stage-tabs" role="tablist" aria-label="Nhóm ticket BQL"><button id="manager-stage-active" type="button" role="tab" data-ticket-role="manager" data-ticket-stage="active" aria-selected="true" aria-controls="manager-ticket-results">Ticket đang xử lý <span data-stage-count="active">0</span></button><button id="manager-stage-finished" type="button" role="tab" data-ticket-role="manager" data-ticket-stage="finished" aria-selected="false" aria-controls="manager-ticket-results" tabindex="-1">Ticket đã hoàn thành/bị huỷ <span data-stage-count="finished">0</span></button></div><div id="manager-ticket-stage-actions" class="section-heading-actions"></div></div>
+        <div id="manager-ticket-results" role="tabpanel" aria-labelledby="manager-stage-active">
+        <p class="ticket-stage-help" data-ticket-stage-help="manager">Các ticket đã gửi, đang xem xét, cần bổ sung hoặc đã duyệt nhưng chưa hoàn tất.</p>
+        <div id="request-stats" class="request-stats" aria-label="Lọc nhanh theo trạng thái" aria-live="polite"></div>
+        <div class="request-toolbar">
+          <label class="request-search" for="request-search">
+            <span class="sr-only">Tìm yêu cầu</span>
+            <svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+            <input id="request-search" type="search" placeholder="Tìm mã yêu cầu hoặc cư dân…" autocomplete="off" maxlength="120" />
+          </label>
+          <label><span>Loại yêu cầu</span>
+            <select id="request-type-filter">
+              <option value="all">Tất cả loại</option>
+              <option value="vehicle_registration">Đăng ký phương tiện</option>
+              <option value="resident_card">Thẻ cư dân</option>
+              <option value="card_replacement">Báo mất / cấp lại thẻ</option>
+              <option value="visitor_registration">Khách và người nhà</option>
+              <option value="temporary_residency">Đăng ký tạm trú</option>
+              <option value="verify_residency">Xác nhận cư trú</option>
+              <option value="move_in_schedule">Lịch chuyển đồ</option>
+              <option value="handover_inspection">Bàn giao căn hộ</option>
+              <option value="emergency_contact">Liên hệ khẩn cấp (lịch sử)</option>
+              <option value="account_registration">Đăng ký tài khoản cư dân phụ thuộc</option>
+              <option value="internet_registration">Đăng ký internet</option>
+              <option value="general_support">Yêu cầu khác</option>
+            </select>
+          </label>
+          <label><span>Trạng thái</span>
+            <select id="request-status-filter">
+              <option value="all">Tất cả trạng thái</option>
+              <option value="active">Chưa kết thúc</option>
+              <option value="submitted">Chờ xử lý</option>
+              <option value="in_review">Đang xem xét</option>
+              <option value="needs_info">Cần bổ sung</option>
+              <option value="approved">Đã duyệt</option>
+              <option value="completed">Hoàn tất</option>
+              <option value="rejected">Từ chối</option>
+              <option value="cancelled_by_resident">Đã hủy bởi người dùng</option>
+              <option value="closed">Đã kết thúc</option>
+            </select>
+          </label>
+          <button id="clear-request-filters" class="clear-filters" type="button">Xóa bộ lọc</button>
+        </div>
+        <div class="ticket-date-filters"><label>Từ ngày gửi<input id="request-date-from" type="date" /></label><label>Đến ngày gửi<input id="request-date-to" type="date" /></label><p>Ngày gửi theo giờ Việt Nam. Kết quả mới nhất hiển thị trước.</p></div>
+        <div class="request-results-heading"><strong id="request-result-count">0 yêu cầu</strong><span id="request-result-summary">Tất cả yêu cầu</span></div>
+        <div id="request-list" class="request-list"></div>
+        <nav class="ticket-pagination" aria-label="Phân trang hàng đợi BQL"><button id="request-prev" type="button" disabled>Trang trước</button><span id="request-page" role="status">Trang 1</span><button id="request-next" type="button" disabled>Trang sau</button></nav>
+        </div>
+      </section>
+      <footer id="application-footer" class="application-footer" aria-label="Điều khiển ứng dụng" hidden>
+        <button id="login-reset" class="login-reset page-reset" type="button" aria-haspopup="dialog" aria-controls="login-reset-dialog" hidden><span aria-hidden="true">↺</span> Reset</button>
+      </footer>
+    </main>
+
+    <dialog id="personal-dialog" class="resident-entry-dialog personal-dialog" aria-labelledby="personal-title">
+      <div class="entry-heading"><div><p class="eyebrow">TÀI KHOẢN CỦA BẠN</p><h2 id="personal-title">Thông tin cá nhân</h2></div><button id="personal-close" type="button" aria-label="Đóng thông tin cá nhân">×</button></div>
+      <p id="personal-status" role="status"></p><dl id="personal-details" class="personal-details"></dl><p id="personal-identity-note" class="portal-help">Họ tên, tư cách, khu, tòa và căn hộ do BQL cấp, chỉ được xem.</p><button id="personal-residency" class="portal-primary" type="button" hidden>Xác thực quyền sở hữu căn hộ</button>
+      <div class="portal-inline-actions password-change-actions"><button id="password-change-open" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="password-change-dialog" disabled>Đổi mật khẩu</button></div>
+      <p id="password-change-help" class="portal-help" hidden>Tài khoản cấu hình sẵn giữ mật khẩu local. Tài khoản cư dân do BQL cấp có thể đổi mật khẩu tại đây.</p>
+    </dialog>
+
+    <dialog id="password-change-dialog" class="resident-entry-dialog" aria-labelledby="password-change-title">
+      <div class="entry-heading"><h2 id="password-change-title">Đổi mật khẩu</h2><button id="password-change-close" type="button" aria-label="Đóng đổi mật khẩu">×</button></div>
+      <section id="password-change-section" class="password-change-section" hidden><p class="portal-help">Sau khi đổi, mọi phiên cũ hết hiệu lực. Bạn đăng nhập lại bằng mật khẩu mới.</p><form id="password-change-form"><div class="password-field"><label for="password-change-current">Mật khẩu hiện tại</label><div class="password-input-control"><input id="password-change-current" name="current_password" type="password" autocomplete="current-password" maxlength="256" required /><button type="button" class="password-visibility" data-password-visibility aria-controls="password-change-current" aria-pressed="false" aria-label="Hiện mật khẩu hiện tại"><svg class="ui-icon password-eye" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/><path class="password-eye-slash" d="m3 3 18 18"/></svg></button></div></div><div class="password-field"><label for="password-change-new">Mật khẩu mới</label><div class="password-input-control"><input id="password-change-new" name="new_password" type="password" autocomplete="new-password" minlength="8" maxlength="256" required /><button type="button" class="password-visibility" data-password-visibility aria-controls="password-change-new" aria-pressed="false" aria-label="Hiện mật khẩu mới"><svg class="ui-icon password-eye" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/><path class="password-eye-slash" d="m3 3 18 18"/></svg></button></div><small>Ít nhất 8 ký tự, khác mật khẩu hiện tại.</small></div><div class="password-field"><label for="password-change-confirm">Nhập lại mật khẩu mới</label><div class="password-input-control"><input id="password-change-confirm" name="confirm_password" type="password" autocomplete="new-password" minlength="8" maxlength="256" required /><button type="button" class="password-visibility" data-password-visibility aria-controls="password-change-confirm" aria-pressed="false" aria-label="Hiện nhập lại mật khẩu mới"><svg class="ui-icon password-eye" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/><path class="password-eye-slash" d="m3 3 18 18"/></svg></button></div></div><p id="password-change-error" class="field-error" role="alert" hidden></p><div class="portal-inline-actions"><button id="password-change-cancel" type="button">Hủy</button><button id="password-change-submit" type="submit">Lưu mật khẩu mới</button></div></form></section>
+    </dialog>
+    <div id="ownership-toast" class="ownership-toast" role="alert" aria-live="assertive" aria-atomic="true" hidden><span id="ownership-toast-message">Hãy xác nhận thông tin cư trú</span><button id="ownership-toast-close" type="button" aria-label="Đóng thông báo">×</button></div>
+
+    <dialog id="password-result-dialog" class="resident-entry-dialog" aria-labelledby="password-result-title" aria-describedby="password-result-copy">
+      <div class="entry-heading"><div><p class="eyebrow">TÀI KHOẢN ĐÃ CẬP NHẬT</p><h2 id="password-result-title">Đổi mật khẩu thành công</h2></div><button id="password-result-close" type="button" aria-label="Đóng kết quả đổi mật khẩu">×</button></div>
+      <p id="password-result-copy" class="portal-help">Mọi phiên đăng nhập cũ đã hết hiệu lực. Xem lại thông tin lần cuối trước khi đóng và đăng nhập bằng mật khẩu mới.</p>
+      <dl id="password-result-details" class="personal-details"></dl>
+      <div class="password-result-secret password-input-control"><label for="password-result-secret">Mật khẩu mới</label><input id="password-result-secret" type="password" readonly autocomplete="off" /><button id="password-result-reveal" type="button" class="password-visibility" aria-controls="password-result-secret" aria-pressed="false" aria-label="Hiện mật khẩu mới"><svg class="ui-icon password-eye" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/><path class="password-eye-slash" d="m3 3 18 18"/></svg></button></div>
+      <p class="portal-help">Thông tin này chỉ hiển thị trong lần đổi mật khẩu này và sẽ được xóa khi bạn đóng.</p>
+      <div class="entry-footer"><button id="password-result-done" class="portal-primary" type="button">Đóng và đăng nhập lại</button></div>
+    </dialog>
+
+    <dialog id="resident-entry-dialog" class="resident-entry-dialog" aria-labelledby="resident-entry-title" aria-describedby="resident-entry-notice">
+      <form id="resident-entry-form">
+        <div class="entry-heading"><div><p class="eyebrow">NHẬP THÔNG TIN</p><h2 id="resident-entry-title">Hồ sơ cư dân</h2></div><button id="resident-entry-close" type="button" aria-label="Đóng form">×</button></div>
+        <p id="resident-entry-context" class="entry-context"></p>
+        <p id="resident-entry-notice" class="entry-notice">Kiểm tra thông tin trước khi gửi. Ban quản lý sẽ tiếp nhận và xem xét hồ sơ của bạn.</p>
+        <p id="resident-entry-error" class="field-error" role="alert" tabindex="-1" hidden></p>
+        <fieldset id="resident-entry-need" class="entry-need" hidden aria-describedby="resident-entry-need-help">
+          <legend>Nhu cầu hiện tại</legend>
+          <label><input type="radio" name="procedure_need" value="request" checked />Đăng ký ngay</label>
+          <label><input id="resident-entry-no-need" type="radio" name="procedure_need" value="none" />Chưa có nhu cầu</label>
+          <p id="resident-entry-need-help" class="portal-help">Xác nhận Chưa có nhu cầu sẽ hoàn thành mục này trong checklist, không tạo ticket và không gửi yêu cầu tới BQL. Bạn vẫn có thể đăng ký sau.</p>
+        </fieldset>
+        <fieldset id="resident-entry-request-fields" class="entry-request-fields">
+        <div id="resident-entry-fields" class="entry-fields"></div>
+        <section id="form-autofill" class="form-autofill">
+          <h3>Điền nhanh từ giấy tờ</h3>
+          <p class="portal-help">Ảnh JPG/PNG/WebP, PDF, DOCX hoặc TXT. Bấm Đọc và điền để gửi tệp tới nhà cung cấp mô hình; chỉ điền ô trống, không tự lưu hay gửi hồ sơ.</p>
+          <label>Chọn ảnh hoặc tài liệu<input id="form-autofill-files" type="file" multiple accept="image/jpeg,image/png,image/webp,.pdf,.docx,.txt" /></label>
+          <button id="form-autofill-read" type="button">Đọc và điền ô trống</button>
+          <p id="form-autofill-status" role="status" aria-atomic="true"></p>
+        </section>
+        <section id="vehicle-upload" class="vehicle-upload" hidden><h3>Giấy đăng ký xe <span aria-hidden="true">*</span></h3><p class="portal-help">Chụp rõ toàn bộ giấy đăng ký, đúng chiều, không lóa. Nếu chữ mờ, vẫn đính kèm ảnh và nhập tay để BQL đối chiếu. Mỗi lần gửi là một phương tiện.</p><label>Ảnh đăng ký xe<input id="vehicle-document" type="file" accept="image/jpeg,image/png,image/webp" disabled /></label><img id="vehicle-document-preview" alt="Ảnh giấy đăng ký xe bạn đã chọn" hidden /><div class="portal-inline-actions"><button id="vehicle-rotate" type="button" disabled>Xoay ảnh 90°</button><button id="vehicle-extract" type="button" disabled>Điền thông tin từ ảnh</button></div><label class="entry-consent"><input id="vehicle-extract-consent" type="checkbox" /><span>Tôi đồng ý gửi ảnh tới nhà cung cấp mô hình đang cấu hình để đọc biển số và loại xe. Có thể bỏ qua bước này và nhập tay.</span></label><p id="vehicle-extract-status" role="status">Ảnh sẽ được gửi kèm hồ sơ cho BQL sau khi bạn xác nhận; không đưa vào kho tài liệu chung.</p></section>
+        </fieldset>
+        <section id="resident-entry-review" class="entry-review" aria-labelledby="resident-entry-review-title" hidden><h3 id="resident-entry-review-title">Kiểm tra trước khi xác nhận</h3><dl id="resident-entry-summary"></dl><label class="entry-consent"><input id="resident-entry-consent" type="checkbox" /><span id="resident-entry-consent-copy">Tôi đã kiểm tra và đồng ý chia sẻ thông tin này với Ban quản lý.</span></label></section>
+        <div class="entry-footer"><button id="resident-entry-back" type="button" hidden>Sửa thông tin</button><button id="resident-entry-submit" type="submit">Xem lại thông tin</button></div>
+        <p id="resident-entry-status" role="status" aria-atomic="true"></p>
+      </form>
+    </dialog>
+
+    <dialog id="ticket-correction-dialog" class="resident-entry-dialog ticket-correction-dialog" aria-labelledby="ticket-correction-title"><div class="entry-heading"><h2 id="ticket-correction-title">Bổ sung thông tin</h2><button id="ticket-correction-close" type="button" aria-label="Đóng bổ sung thông tin">×</button></div><div id="ticket-correction-content"></div></dialog>
+    <dialog id="vehicle-document-dialog" class="resident-entry-dialog" aria-labelledby="vehicle-document-title"><div class="entry-heading"><h2 id="vehicle-document-title">Giấy đăng ký xe</h2><button id="vehicle-document-close" type="button" aria-label="Đóng ảnh giấy đăng ký">×</button></div><p class="portal-help">Đối chiếu biển số và loại xe với giấy tờ. Thông tin đọc từ ảnh hoặc nhập tay đều cần BQL xem xét.</p><p id="vehicle-document-error" class="field-error" role="alert" hidden></p><img id="vehicle-document-image" alt="Giấy đăng ký đính kèm hồ sơ phương tiện" /></dialog>
+
+    <button id="manager-agent-launcher" class="chat-launcher manager-agent-launcher" type="button" aria-label="Mở trợ lý quản lý MoveInMate" aria-haspopup="dialog" aria-controls="manager-agent-dialog" aria-expanded="false" hidden><span class="chat-launcher-icon" data-agent-mascot="manager-launcher" aria-hidden="true"><img src="/static/agent-mascot.svg?v=20261010-portal-v4" width="46" height="46" alt="" /></span><span class="chat-launcher-copy"><strong>Trợ lý AI</strong><small>Tóm tắt · quản lý hồ sơ</small></span></button>
+    <dialog id="manager-agent-dialog" class="manager-agent-dialog" aria-labelledby="manager-agent-title" aria-describedby="manager-agent-description">
+      <header class="manager-agent-header"><div class="chat-widget-identity"><span class="chat-widget-logo" data-agent-mascot="manager-header" aria-hidden="true"><img src="/static/agent-mascot.svg?v=20261010-portal-v4" width="46" height="46" alt="" /></span><div><h2 id="manager-agent-title">Trợ lý MoveInMate</h2><p id="manager-agent-description">Đồng hành cùng Ban quản lý</p></div></div><div class="manager-agent-actions chat-widget-actions"><button id="manager-agent-expand" type="button" aria-label="Mở rộng trợ lý quản lý" title="Mở rộng trợ lý quản lý" aria-pressed="false"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3H3v5M16 3h5v5M8 21H3v-5M16 21h5v-5"/></svg></button><button id="manager-agent-close" type="button" aria-label="Đóng trợ lý Ban quản lý">×</button></div></header>
+      <nav class="manager-agent-shortcuts" aria-label="Xử lý ticket"><button type="button" data-manager-prompt="Rà soát hồ sơ chờ xử lý">Rà soát ticket</button><button type="button" data-manager-prompt="Hoàn tất nhóm ticket đã duyệt">Hồ sơ đã duyệt</button></nav>
+      <div id="manager-agent-messages" class="manager-agent-messages" role="log" aria-label="Hội thoại Ban quản lý" aria-live="polite" aria-relevant="additions"></div>
+      <div id="manager-agent-selection" class="manager-agent-selection" hidden><span>Đang xem <strong id="manager-agent-selected-id"></strong></span><button id="manager-agent-unselect" type="button">Bỏ chọn</button></div>
+      <form id="manager-agent-form" class="manager-agent-form"><label><span class="sr-only">Nhập yêu cầu cho trợ lý Ban quản lý</span><textarea id="manager-agent-input" rows="1" maxlength="2000" placeholder="Nhóm hồ sơ nào cần kiểm tra? Tôi giúp bạn đối chiếu…" required></textarea></label><button id="manager-agent-send" type="submit">Gửi</button></form>
+    </dialog>
+
+    <dialog id="manager-batch-dialog" class="resident-entry-dialog manager-batch-dialog" aria-labelledby="manager-batch-title"><form id="manager-batch-form"><div class="entry-heading"><h2 id="manager-batch-title">Rà soát và xác nhận</h2><button id="manager-batch-close" type="button" aria-label="Đóng rà soát hồ sơ">×</button></div><p id="manager-batch-description" class="portal-help"></p><p class="portal-help">Hệ thống đã kiểm tra trường bắt buộc, hồ sơ cư dân và khác biệt theo quy tắc. Xem bảng đối chiếu, chọn cả danh sách phù hợp hoặc bỏ riêng một hồ sơ; không cần mở từng ticket. Kết quả này không chứng minh giấy tờ thật/giả.</p><div class="manager-batch-toolbar"><button id="manager-batch-select-all" type="button">Chọn tất cả</button><button id="manager-batch-clear" type="button">Bỏ chọn</button><span id="manager-batch-count" role="status" aria-atomic="true">Chưa chọn hồ sơ</span></div><div id="manager-batch-tickets"></div><label class="manager-batch-reason">Nội dung gửi cư dân<textarea id="manager-batch-reason" rows="3" maxlength="500" minlength="3" required></textarea></label><label class="manager-batch-consent"><input id="manager-batch-confirmed" type="checkbox" required /><span id="manager-batch-consent-label">Tôi đã xem kết quả rà soát và đồng ý cập nhật danh sách được chọn.</span></label><p id="manager-batch-error" class="field-error" role="alert"></p><div class="dialog-actions"><button id="manager-batch-cancel" type="button">Hủy</button><button id="manager-batch-submit" type="submit">Xác nhận</button></div></form></dialog>
+
+    <dialog id="decision-dialog" class="decision-dialog" aria-labelledby="decision-dialog-title" aria-describedby="decision-dialog-copy">
+      <form id="decision-form">
+        <div class="dialog-heading">
+          <span class="dialog-icon" aria-hidden="true">✓</span>
+          <div><small>XÁC NHẬN XỬ LÝ</small><h2 id="decision-dialog-title">Cập nhật yêu cầu</h2></div>
+        </div>
+        <p id="decision-dialog-copy" class="dialog-copy"></p>
+        <label id="decision-reason-wrap" class="decision-reason-wrap" hidden>Ghi chú gửi cư dân
+          <textarea id="decision-reason" rows="4" maxlength="500" placeholder="Nhập nội dung rõ ràng để cư dân biết cần làm gì…"></textarea>
+        </label>
+        <small id="decision-reason-error" class="field-error" aria-live="polite"></small>
+        <div class="dialog-actions"><button id="decision-cancel" type="button">Quay lại</button><button id="decision-confirm" type="submit">Xác nhận</button></div>
+      </form>
+    </dialog>
+
+    <button id="chat-launcher" class="chat-launcher" type="button" aria-label="Mở trợ lý MoveInMate" aria-controls="chat-widget" aria-expanded="false" hidden>
+      <span class="chat-launcher-icon" data-agent-mascot="launcher" aria-hidden="true"><img src="/static/agent-mascot.svg?v=20261010-portal-v4" width="46" height="46" alt="" /></span>
+      <span class="chat-launcher-copy"><strong>Trợ lý AI</strong><small>Hỏi đáp · thủ tục cư dân</small></span>
+      <svg class="fab-running-border" viewBox="0 0 176 58" preserveAspectRatio="none" aria-hidden="true">
+        <rect class="fab-border-base" x="1" y="1" width="174" height="56" rx="28" pathLength="100" />
+        <rect class="fab-border-runner fab-border-runner-glow" x="1" y="1" width="174" height="56" rx="28" pathLength="100" />
+        <rect class="fab-border-runner" x="1" y="1" width="174" height="56" rx="28" pathLength="100" />
+        <rect class="fab-border-runner fab-border-spark" x="1" y="1" width="174" height="56" rx="28" pathLength="100" />
+      </svg>
+    </button>
+
+    <section id="chat-widget" class="chat-widget" aria-label="Trợ lý MoveInMate" aria-hidden="true" hidden>
+      <header class="chat-widget-header">
+        <div class="chat-widget-identity">
+          <span class="chat-widget-logo" data-agent-mascot="header" aria-hidden="true"><img src="/static/agent-mascot.svg?v=20261010-portal-v4" width="46" height="46" alt="" /></span>
+          <div><strong>Trợ lý MoveInMate</strong><small id="agent-state-label">Đồng hành cùng bạn, từng thủ tục</small></div>
+        </div>
+        <div class="chat-widget-actions">
+          <button id="chat-expand" class="chat-expand" type="button" aria-label="Mở rộng cửa sổ trợ lý" aria-pressed="false" title="Mở rộng cửa sổ trợ lý">
+            <svg class="ui-icon expand-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3H3v5M16 3h5v5M8 21H3v-5M16 21h5v-5"/></svg>
+            <svg class="ui-icon collapse-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 3v6H3M15 3v6h6M9 21v-6H3M15 21v-6h6"/></svg>
+          </button>
+          <button id="chat-close" class="chat-close" type="button" aria-label="Đóng trợ lý">×</button>
+        </div>
+      </header>
+      <nav class="chat-toolbar" aria-label="Thao tác nhanh trong cuộc trò chuyện">
+        <button id="chat-procedures" type="button" data-ui-action="open_procedures" aria-controls="procedure-picker" aria-expanded="false"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg>Chọn thủ tục</button>
+        <button type="button" data-ui-action="open_tab" data-ui-tab="tickets"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h10l4 4v14H3V3h4Z"/><path d="M7 11h10M7 15h7"/></svg>Ticket của tôi</button>
+      </nav>
+      <div class="chat-shell">
+        <div id="messages" class="messages" aria-live="polite">
+          <article class="message assistant">
+            <div class="avatar" aria-hidden="true"><img src="/static/agent-mascot.svg?v=20261010-portal-v4" width="32" height="32" alt="" /></div>
+            <div><strong>MoveInMate</strong><div class="markdown-body"><p>Chào bạn! Chọn một thủ tục để xem hướng dẫn, hoặc mô tả điều bạn cần bên dưới.</p></div><div class="chat-starters"><button type="button" data-ui-action="open_procedures">Chọn thủ tục →</button><button type="button" data-ui-action="open_tab" data-ui-tab="progress">Xem tiến độ</button></div><div class="message-actions"><button class="speak-button" type="button" aria-label="Đọc câu trả lời"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6.8 8.5H3.5v7h3.3L11 19V5Z"/><path d="M15 9a4.2 4.2 0 0 1 0 6M17.8 6.5a7.7 7.7 0 0 1 0 11"/></svg><span>Nghe</span></button></div></div>
+          </article>
+        </div>
+        <form id="chat-form" class="composer">
+          <label class="composer-label" for="chat-input">Nội dung cần hỗ trợ</label>
+          <div id="attachment-preview" class="attachment-preview" aria-live="polite"></div>
+          <div class="composer-row">
+            <label class="attach-button" for="file-input" title="Gửi kèm ảnh hoặc tài liệu">
+              <svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m20.5 11.5-8.9 8.9a6 6 0 0 1-8.5-8.5l9-9a4 4 0 0 1 5.7 5.7l-9 9a2 2 0 0 1-2.8-2.8l8.3-8.3"/></svg><span class="sr-only">Đính kèm tệp</span>
+            </label>
+            <input id="file-input" type="file" accept=".jpg,.jpeg,.png,.webp,.pdf,.docx,.txt" multiple hidden />
+            <button id="mic-button" class="mic-button" type="button" title="Nhập bằng giọng nói" aria-label="Nhập nội dung bằng giọng nói" disabled><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="12" rx="3"/><path d="M5.5 11.5a6.5 6.5 0 0 0 13 0M12 18v3M8.5 21h7"/></svg></button>
+            <textarea id="chat-input" rows="1" maxlength="2000" placeholder="Nhập nội dung…" aria-label="Nội dung cần trợ lý hỗ trợ" aria-describedby="chat-input-hint" autocomplete="off" spellcheck="true" autocorrect="on" autocapitalize="sentences"></textarea>
+            <button type="submit">Gửi</button>
+          </div>
+          <div class="composer-meta">
+            <small id="chat-input-hint" class="attachment-help">Hỏi tiếp ngay tại đây · Đính kèm tối đa 4 tệp</small>
+            <div class="test-controls">
+              <button id="auto-tts-toggle" class="auto-tts-toggle" type="button" aria-pressed="false" disabled>Giọng đọc tự động: Đang kiểm tra</button>
+            </div>
+          </div>
+          <small id="speech-status" class="speech-status" aria-live="polite"></small>
+        </form>
+      </div>
+    </section>
+
+    <dialog id="login-reset-dialog" class="login-reset-dialog" aria-labelledby="reset-title" aria-describedby="reset-description">
+      <form id="login-reset-form">
+        <h2 id="reset-title">Reset</h2>
+        <p id="reset-description">Xóa ticket, lịch sử xử lý, thông báo, giấy tờ xe, tiến độ thủ tục, xác nhận đọc và đoạn chat của mọi tài khoản. Khôi phục demo001–demo010 về tên đăng nhập và mật khẩu ban đầu, kể cả tài khoản đã đổi; lần đăng nhập tiếp theo phải đổi lại. user/admin dùng tài khoản và mật khẩu cấu hình sẵn. Giữ căn hộ đã cấp; xóa xác thực cư trú và dữ liệu bổ sung để làm lại thủ tục. Hồ sơ user trở về bản gốc. Tài khoản tạo thêm ngoài danh sách được giữ sẽ bị xóa. Giữ danh mục khu, nguồn tài liệu và cấu hình hệ thống.</p>
+        <p class="auth-error">Reset áp dụng toàn ứng dụng, kể cả các khu khác. Sau khi Reset, tất cả phiên đăng nhập sẽ kết thúc.</p>
+        <div class="password-field"><label for="reset-code">Mã Reset</label><div class="password-input-control"><input id="reset-code" type="password" autocomplete="off" inputmode="numeric" maxlength="256" required autofocus /><button type="button" class="password-visibility" data-password-visibility aria-controls="reset-code" aria-pressed="false" aria-label="Hiện mã reset"><svg class="ui-icon password-eye" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/><path class="password-eye-slash" d="m3 3 18 18"/></svg></button></div></div>
+        <label class="reset-confirm"><input id="reset-confirm" type="checkbox" required /><span>Tôi đồng ý xóa dữ liệu của tất cả tài khoản và bắt đầu lại. Thao tác này không thể hoàn tác trong ứng dụng.</span></label>
+        <p id="reset-error" class="auth-error" role="alert" hidden></p>
+        <div class="reset-actions"><button id="reset-cancel" type="button">Hủy</button><button id="reset-submit" class="auth-submit" type="submit">Reset</button></div>
+      </form>
+    </dialog>
+    <dialog id="password-recovery-dialog" class="resident-entry-dialog recovery-dialog" aria-labelledby="recovery-title">
+      <header class="recovery-heading"><div><p class="eyebrow">LẤY LẠI QUYỀN TRUY CẬP</p><h2 id="recovery-title">Đặt lại mật khẩu</h2></div><button id="recovery-close" type="button" aria-label="Đóng khôi phục mật khẩu">×</button></header>
+      <p id="recovery-service-status" class="portal-help" role="status">Trợ lý sẽ tiếp nhận thông tin tối thiểu và gửi yêu cầu để BQL đối chiếu.</p>
+      <section id="recovery-agent" hidden><div class="recovery-agent-identity"><img src="/static/agent-mascot.svg?v=20261013-v1" width="44" height="44" alt="" /><strong>Trợ lý khôi phục</strong></div><p class="portal-help">Không gửi CCCD, mật khẩu hay mã OTP vào cuộc trò chuyện. BQL sẽ liên hệ qua kênh đã đăng ký hoặc đối chiếu giấy tờ trực tiếp nếu cần.</p><div id="recovery-messages" class="recovery-messages" aria-live="polite"></div><form id="recovery-agent-form" class="login-form"><label id="recovery-agent-label" for="recovery-agent-input">Tên tài khoản</label><input id="recovery-agent-input" maxlength="80" autocomplete="username" required /><div class="recovery-actions"><button id="recovery-agent-back" type="button">Quay lại</button><button id="recovery-agent-next" class="auth-submit" type="submit">Tiếp tục</button></div></form><section id="recovery-review" hidden><dl id="recovery-review-details"></dl><label class="portal-confirm"><input id="recovery-consent" type="checkbox" />Tôi xác nhận thông tin và đồng ý gửi BQL đối chiếu.</label><div class="recovery-actions"><button id="recovery-edit" type="button">Sửa thông tin</button><button id="recovery-send" class="auth-submit" type="button">Xác nhận gửi BQL</button></div></section></section>
+      <p id="recovery-error" class="field-error" role="alert" hidden></p><p id="recovery-result" class="portal-help" role="status" hidden></p>
+    </dialog>
+    <dialog id="manager-password-dialog" class="resident-entry-dialog recovery-dialog" aria-labelledby="manager-password-title"><header class="recovery-heading"><div><p class="eyebrow">TÀI KHOẢN CƯ DÂN</p><h2 id="manager-password-title">Cấp lại mật khẩu</h2></div><button id="manager-password-close" type="button" aria-label="Đóng cấp lại mật khẩu">×</button></header><p id="manager-password-account"></p><form id="manager-password-form" class="login-form"><p class="portal-help">Không chỉ dựa vào tên hoặc căn hộ. Liên hệ số đã đăng ký trước hoặc đối chiếu trực tiếp tại BQL. Mật khẩu mới chỉ hiện một lần để bàn giao riêng.</p><label>Lý do và cách đã đối chiếu<textarea name="reason" minlength="5" maxlength="500" rows="3" required></textarea></label><label class="portal-confirm"><input name="identity_checked" type="checkbox" required />Đã đối chiếu đúng cư dân qua kênh đăng ký trước hoặc trực tiếp.</label><button class="auth-submit" type="submit">Xác nhận cấp mật khẩu tạm</button><button id="manager-recovery-reject" type="button" hidden>Xác nhận từ chối yêu cầu</button></form><section id="manager-password-result" hidden><p class="portal-help">Đã cấp lại. Phiên cũ hết hiệu lực; cư dân phải đổi mật khẩu ngay khi đăng nhập.</p><div class="password-field"><label for="manager-password-secret">Mật khẩu bàn giao</label><div class="password-input-control"><input id="manager-password-secret" type="password" readonly autocomplete="off" /><button type="button" class="password-visibility" data-password-visibility aria-controls="manager-password-secret" aria-pressed="false" aria-label="Hiện mật khẩu tạm"><svg class="ui-icon password-eye" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/><path class="password-eye-slash" d="m3 3 18 18"/></svg></button></div></div><button id="manager-password-copy" type="button">Sao chép thông tin</button><p id="manager-password-copy-status" role="status"></p></section><p id="manager-password-error" class="field-error" role="alert" hidden></p></dialog>
+    <dialog id="first-password-dialog" class="auth-card first-password-dialog" aria-labelledby="first-password-title" aria-describedby="first-password-description" closedby="none">
+      <div class="first-password-content">
+      <span class="auth-mark" aria-hidden="true"><svg class="ui-icon"><use href="/static/icons.svg#key" /></svg></span>
+      <h2 id="first-password-title">Thiết lập tài khoản riêng</h2>
+      <p id="first-password-description" class="auth-description">Chọn tên đăng nhập và mật khẩu riêng để tiếp tục. Ban quản lý thấy tên tài khoản mới, không xem được mật khẩu bạn tự đặt.</p>
+      <form id="first-password-form" class="login-form" hidden>
+        <label for="first-password-username"><span id="first-password-username-label">Tên đăng nhập mới</span><span id="first-password-username-error" class="username-field-error" role="alert" hidden></span><input id="first-password-username" name="username" type="text" autocomplete="username" autocapitalize="none" spellcheck="false" maxlength="80" pattern="[a-zA-Z0-9_.@\-]+" placeholder="Ví dụ: nguyenan.1205" aria-describedby="first-password-username-help first-password-username-error" required autofocus /><small id="first-password-username-help">Chọn tên đăng nhập riêng, khác tài khoản Ban quản lý đã cấp.</small></label>
+        <div class="first-password-field"><label for="first-password-new">Mật khẩu mới</label><div class="password-input-control"><input id="first-password-new" name="new_password" type="password" autocomplete="new-password" minlength="8" maxlength="256" aria-describedby="first-password-help" required /><button type="button" class="password-visibility" data-password-toggle="first-password-new" aria-controls="first-password-new" aria-pressed="false" aria-label="Hiện mật khẩu mới"><svg class="ui-icon password-eye" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/><path class="password-eye-slash" d="m3 3 18 18"/></svg></button></div><small id="first-password-help">Từ 8 ký tự, khác mật khẩu được cấp. Có thể dùng trình quản lý mật khẩu.</small></div>
+        <div class="first-password-field"><label for="first-password-confirm">Nhập lại mật khẩu mới</label><div class="password-input-control"><input id="first-password-confirm" name="confirm_password" type="password" autocomplete="new-password" minlength="8" maxlength="256" required /><button type="button" class="password-visibility" data-password-toggle="first-password-confirm" aria-controls="first-password-confirm" aria-pressed="false" aria-label="Hiện mật khẩu xác nhận"><svg class="ui-icon password-eye" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/><path class="password-eye-slash" d="m3 3 18 18"/></svg></button></div></div>
+        <p id="first-password-error" class="error" role="alert" tabindex="-1" hidden></p>
+        <button id="first-password-submit" class="auth-submit" type="submit">Lưu và tiếp tục</button>
+        <button id="first-password-cancel" type="button" class="auth-retry">Quay lại đăng nhập</button>
+      </form>
+      </div>
+    </dialog>
+    <script src="/static/app.js?v=20261017-chat-documents-v5" defer></script>
+    <script src="/static/manager-assistant.js?v=20261016-ticket-stages-v2" defer></script>
+    <script src="/static/manager-conversation.js?v=20261016-ticket-stages-v2" defer></script>
+    <script src="/static/ticket-corrections.js?v=20261017-chat-schedules-v3" defer></script>
+    <script src="/static/request-drafts.js?v=20261017-chat-documents-v5" defer></script>
+    <script src="/static/reset-session.js?v=20261010-global-reset" defer></script>
+    <script src="/static/login-reset.js?v=20261017-chat-schedules-v3" defer></script>
+    <script src="/static/notifications.js?v=20261016-ticket-stages-v1" defer></script>
+    <script src="/static/portal.js?v=20261016-household-suspension-v1" defer></script>
+    <script src="/static/resident-workflows.js?v=20261017-chat-schedules-v3" defer></script>
+    <script src="/static/account-recovery.js?v=20261014-ticket-delivery-v2" defer></script>
+    <script src="/static/ticket-delivery.js?v=20261016-heading-actions-v1" defer></script>
+    <script src="/static/agent-mascot.js?v=20261015-projected-smile-v1" type="module"></script>
+    <script src="/static/glass-motion.js?v=20261015-living-v2" type="module"></script>
+  </body>
+</html>
